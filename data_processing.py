@@ -119,10 +119,7 @@ class DataProcessing():
         smooth_final_maps = np.zeros(self.ebv.shape)
         self.bayestar_distances=self.load_distances()
         self.bayestar_ndistances=len(self.bayestar_distances)
-        zoom_in_area = "rho_ophiuchi"
-        zoom_dict = utils.get_sky_area_zoom_in_parameters(zoom_in_area=zoom_in_area)
-        rot=zoom_dict['rot']
-        xsize = zoom_dict['xsize']
+        
         for ds_index in range(self.bayestar_ndistances):
         #for ds_index in range(1):
             print("I am doing distance slice ", str(ds_index))
