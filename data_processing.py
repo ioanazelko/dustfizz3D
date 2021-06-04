@@ -125,6 +125,7 @@ class DataProcessing():
         xsize = zoom_dict['xsize']
         for ds_index in range(self.bayestar_ndistances):
         #for ds_index in range(1):
+            print("I am doing distance slice ", str(ds_index))
             nested_original_map = self.ebv[ds_index]
             ring_original_map=hp.reorder(map_in=nested_original_map,inp="NESTED",out='RING')
             ring_smooth_map = hp.smoothing(ring_original_map, fwhm=smoothing_psf) #NEEDS RING INPUT!
