@@ -6,6 +6,7 @@ from dustmaps.bayestar import BayestarQuery
 import h5py
 import healpy as hp
 import numpy as np
+import time
 
 
 DUST_3D_TEMPERATURE_MAP_DATA_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_DATA_LOCATION"]
