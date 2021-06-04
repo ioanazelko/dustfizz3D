@@ -57,18 +57,21 @@ class SkyAnalysis():
         self.nr_of_super_pixels=self.super_pixel_nside**2*12
         self.super_pixel_size = int((self.full_maps_nside/self.super_pixel_nside)**2)
         self.sky_area = self.optimizer_parser.get('Analysis_configuration','sky_area')
+        self.zoom_in_area = self.optimizer_parser.get('Analysis_configuration','zoom_in_area')
         if self.sky_area == "rho_ophiuchi":
-            self.start_super_pixel=4864
-            self.end_super_pixel=5120
+            sky_area_dict=utils.get_sky_area_parameters(sky_area, self.super_pixel_nside)
+            self.start_super_pixel=sky_area_dict[start_super_pixel]
+            self.end_super_pixel=sky_area_dict[end_super_pixel]
         elif self.sky_area == "full_sky":
             self.start_super_pixel=0
             self.end_super_pixel=self.nr_of_super_pixels      
         else:
             raise ValueError("Please specify the right region of the sky")
         ########## Zooming in parameters
-        self.zoom_in_area = "rho_ophiuchi" #This is the only option for now, but I can change it later if I want to add more
-        self.rot = (0.,20.) # for the Orion region above the galactic plane
-        self.xsize=500
+        # this is not necessarily the same as sky area, because if sky area is the full sky, we may still want to have a way to zoom in
+        zoom_in_dict=utils.get_sky_area_zoom_in_parameters(self.zoom_in_area)
+        self.rot = zoom_in_dict['rot']
+        self.xsize= zoom_in_dict['xsize']
         ######### EBV map parameters
         self.use_smooth_EBV = str2bool.str2bool(self.optimizer_parser.get('Analysis_configuration','use_smooth_EBV'))
         self.first_distance_slice=int(self.optimizer_parser.get('Analysis_configuration','first_distance_slice'))### Not doing the first couple of distance slices because there might no be enough dust in them; but I should still try for curiousity to see how much is in them

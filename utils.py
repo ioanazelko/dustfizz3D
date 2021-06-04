@@ -232,3 +232,32 @@ def gelman_rubin_convergence_test(data_from_chains):
     my_R_square = R**2
 
     return my_R,my_R_square
+
+
+#####################################
+#### Sky areas parameters
+#####################################
+
+def get_sky_area_parameters(sky_area, super_pixel_nside):
+            
+    dict_zoom={}
+    if sky_area == "rho_ophiuchi":
+        if super_pixel_nside == 32:
+            dict_zoom['start_super_pixel']=4864
+            dict_zoom['end_super_pixel']=5120
+        else:
+            raise ValueError("Calculate the zoom in super pixel index")
+    else:
+        raise ValueError("unknown sky area")
+
+    return dict_zoom
+def get_sky_area_zoom_in_parameters(zoom_in_area):
+    dict_zoom={}
+    if zoom_in_area == "rho_ophiuchi":
+        dict_zoom['rot'] = (0.,20.) # for the Orion region above the galactic plane
+        dict_zoom['xsize']= 500
+        ### assuming a nested NSIDE 1024
+    else:
+        raise ValueError("unknown zoom-in area")
+
+    return dict_zoom
