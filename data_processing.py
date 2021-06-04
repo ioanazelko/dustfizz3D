@@ -123,8 +123,8 @@ class DataProcessing():
         zoom_dict = utils.get_sky_area_zoom_in_parameters(zoom_in_area=zoom_in_area)
         rot=zoom_dict['rot']
         xsize = zoom_dict['xsize']
-        for ds_index in range(self.bayestar_ndistances):
-        #for ds_index in range(1):
+        #for ds_index in range(self.bayestar_ndistances):
+        for ds_index in range(1):
             print("I am doing distance slice ", str(ds_index))
             nested_original_map = self.ebv[ds_index]
             ring_original_map=hp.reorder(map_in=nested_original_map,inp="NESTED",out='RING')
