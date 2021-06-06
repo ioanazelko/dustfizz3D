@@ -50,17 +50,9 @@ class DataProcessing():
             self.ebv = ebv_data_processing.loadBayestarSlices()### (31,12582912) , (nr of slices, number of extinction pixels)
         return self.ebv
 
-    #### Distance Functions
-    def query_bayestar_distances(self, bayestar_version):
-        bayestar = BayestarQuery(max_samples=2, version=bayestar_version)
-        return bayestar.distances
-    def saving_distances(self):
-        bayestar_version_list = ["bayestar2017","bayestar2019"]
-        for bv in bayestar_version_list:
-            distances = self.query_bayestar_distances(bv)
-            utils.saveArray(np.array(distances),filename=DUST_3D_TEMPERATURE_MAP_DATA_LOCATION+"/distance_slices/"+bv+"_distances")
+   
     def load_distances(self):
-        self.model_dist_slices = utils.openFits(filename=DUST_3D_TEMPERATURE_MAP_DATA_LOCATION+"/distance_slices/"+self.bayestar_version+"_distances")
+        self.model_dist_slices = ebv_data_processing.load_bayestar_distances(self.bayestar_version)
         return  self.model_dist_slices  
     ### Smoothing Functions
     def smooth_planck(self,final_psf=10.):
@@ -107,6 +99,7 @@ class DataProcessing():
         with h5py.File(filename, "r") as g:    
             self.ebv_smooth=g["ebv_array"][()]
             g.close()
+        print("loading smooth ebv done")
         return self.ebv_smooth
 
 

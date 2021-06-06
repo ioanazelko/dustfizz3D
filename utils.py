@@ -247,6 +247,12 @@ def get_sky_area_parameters(sky_area, super_pixel_nside):
             dict_zoom['end_super_pixel']=5120
         else:
             raise ValueError("Calculate the zoom in super pixel index")
+    elif sky_area == "cepheus":
+        if super_pixel_nside == 128:
+            dict_zoom['start_super_pixel']=88558 
+            dict_zoom['end_super_pixel']=96208
+        else:
+            raise ValueError("Calculate the zoom in super pixel index")
     else:
         raise ValueError("unknown sky area")
 
@@ -257,7 +263,25 @@ def get_sky_area_zoom_in_parameters(zoom_in_area):
         dict_zoom['rot'] = (0.,20.) # for the Orion region above the galactic plane
         dict_zoom['xsize']= 500
         ### assuming a nested NSIDE 1024
+    elif zoom_in_area == "cepheus":
+        dict_zoom['rot']=(106.5,14) 
+        dict_zoom['xsize']=840
     else:
         raise ValueError("unknown zoom-in area")
 
     return dict_zoom
+
+def get_cepheus_healpix_index(map_nside, nested=True):
+    cepheus_bi_cloud_point = (99.5,10.2)
+    l,b= cepheus_bi_cloud_point
+    return l_and_b_to_healpix_index(map_nside=map_nside,l=l,b=b,nested=nested)
+def get_cepheus_plot_center():
+    return ()
+
+def l_and_b_to_healpix_index(map_nside, l,b,nested=True):
+    """
+    l = galactic longitude, positive towards east
+    b = galaactic latitude
+    """
+    healpix_index=hp.ang2pix(map_nside, theta=l, phi=b, nest=nested, lonlat=True)
+    return healpix_index

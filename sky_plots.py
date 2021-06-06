@@ -278,11 +278,11 @@ if __name__ == "__main__":
     #make_the_analysis()
     
     #p = SkyAnalysis("powell_nside_32_priors_T_unfixed")
-    p = SkyPlots("powell_nside_32_no_priors")
+    p = SkyPlots("test_bayestar2019",run_type='optimizer')
     p.set_up_analysis()
     
     #p.run_optimizer()
-    data_dict = p.load_optimizer_sky_data()
+    #data_dict = p.load_optimizer_sky_data()
 
     #making_the_tables_of_the_paper()
     time_string = utils.end_time(start_time)

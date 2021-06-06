@@ -43,7 +43,7 @@ class SkyAnalysis():
         
         self.optimizer_parser = optimizer_parser
         self.set_analysis_parameters()
-        self.load_data()
+        #self.load_data()
         
     ### Model and Analysis Set Up
 
@@ -192,7 +192,7 @@ class SkyAnalysis():
         data = data_processing.DataProcessing(data_options_dict)
         self.planck = data.load_planck()
         self.planck_smooth = data.load_smooth_planck()
-        ### bayestar2017
+        ### bayestar2019 or bayestar2017
         self.ebv = data.load_bayestar()
         self.ebv_smooth = data.load_smooth_ebv()
         ### distances
@@ -213,8 +213,6 @@ class SkyAnalysis():
         else:
             self.analysis_planck = self.planck
         return
-
-
 
     def print_analysis_parameters(self):
         print("Nr of SuperPixels: ", self.nr_of_super_pixels)
@@ -245,6 +243,9 @@ class SkyAnalysis():
         ### append the cumulative EBV till the first distance bin choice to the first value
         dEBV = np.append(ebv[self.first_distance_slice:self.first_distance_slice+1],diff_EBV,axis=0)
         return dEBV
+
+    #ef custom_distance_slice(custom_distance_array_type):
+    #    if custom_distance_array_type == "cepheus":
 
 
     def set_up_analysis(self):      
@@ -379,10 +380,12 @@ class SkyAnalysis():
 
 
     ### Run the optimizer
-    def run_optimizer(self): 
+    def run_optimizer(self):
         self.optimizer_options()
         # def test_run_sampler(self):
         #     #Selecting the super pixels for the fit
+        print("Starting the optimizer") 
+
         start_pixel = self.start_super_pixel
         #end_pixel = int(self.nr_of_super_pixels/100)
         #end_pixel = self.nr_of_super_pixels 
@@ -391,7 +394,7 @@ class SkyAnalysis():
         super_pixels_index_array = np.array(range(start_pixel,end_pixel))
         n_chosen_super_pix = len(super_pixels_index_array) #Number of superpixels
         
-        nr_of_parallel_processes = 4
+        nr_of_parallel_processes = 30
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
             raise ValueError("Wrong nr of parralel processes or super pixels!!!")
         part_n_super_pixels = int(n_chosen_super_pix/nr_of_parallel_processes)
@@ -404,12 +407,13 @@ class SkyAnalysis():
         for process_index in range(nr_of_parallel_processes):
             def do_it():
                 sys.stdout.flush()
+                ### Selecting the superpixels that each parallel process should take care of
                 part_super_pixels_index_array = super_pixels_index_array[process_index*part_n_super_pixels:(process_index+1)*part_n_super_pixels]
                 parameters_list = []
                 optimized_function_list = []
                 final_chi_square_list = []
                 for i in range(part_n_super_pixels):
-                    #print("Running the sampler for super_pixel ",i)
+                    print("Running the optimizer for super_pixel ",i, 'process index', process_index)
                     ### To implement: disregard subpixels that are masked out
                     ### To implement: only fit superpixels with enough coverage by the extinction map
 
@@ -583,13 +587,13 @@ if __name__ == "__main__":
     start_time = time.time()
     #plot_the_paper_plots()
     #make_the_analysis()
-
-    p = SkyAnalysis("powell_nside_128_priors_T_unfixed")        
+    p = SkyAnalysis("test_bayestar2019",run_type="optimizer")        
+    #p = SkyAnalysis("powell_nside_128_priors_T_unfixed")        
     #p = SkyAnalysis("powell_nside_64_priors_T_unfixed")    
     #p = SkyAnalysis("powell_nside_32_priors_T_unfixed")
     #p = SkyAnalysis("powell_nside_32_no_priors")
     p.set_up_analysis()
-    
+    p.load_data()
     p.run_optimizer()
 
     #making_the_tables_of_the_paper()
