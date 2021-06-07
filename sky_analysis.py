@@ -569,7 +569,7 @@ class SkyAnalysis():
                   
                     #check_initial_positions(s)
                     s.sample()
-                    #process_sampler_data(s)
+                    s.process_sampler_data()
 
                     data_sampler=s.load_run_data()
                     s.plot_chain_corner_plots(data_sampler,throw_away_burnout=True)
@@ -602,8 +602,8 @@ if __name__ == "__main__":
     #p = SkyAnalysis("powell_nside_32_no_priors")
     p.set_up_analysis()
     p.load_data()
-    p.run_optimizer()
-
+    #p.run_optimizer()
+    p.run_sampler()
     #making_the_tables_of_the_paper()
     time_string = utils.end_time(start_time)
 
