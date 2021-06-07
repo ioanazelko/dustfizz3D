@@ -529,8 +529,9 @@ class SkyAnalysis():
                 parameters_list = []
                 optimized_function_list = []
                 final_chi_square_list = []
-                #for i in range(part_n_super_pixels):
-                for i in range(201,202):
+                for i in range(part_n_super_pixels):
+                #for i in range(201,202):
+                    print("Running the optimizer for super_pixel ",i, 'process index', process_index)
                     super_pixel_index=part_super_pixels_index_array[i]
                     #print("Running the sampler for super_pixel ",super_pixel_index)
                     ### To implement: disregard subpixels that are masked out
@@ -591,7 +592,9 @@ if __name__ == "__main__":
     start_time = time.time()
     #plot_the_paper_plots()
     #make_the_analysis()
-    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="optimizer")        
+#    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="optimizer")
+    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="sampler")        
+        
     #p = SkyAnalysis("test_bayestar2019",run_type="optimizer")        
     #p = SkyAnalysis("powell_nside_128_priors_T_unfixed")        
     #p = SkyAnalysis("powell_nside_64_priors_T_unfixed")    
