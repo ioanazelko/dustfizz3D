@@ -186,6 +186,9 @@ class SkyPlots(sky_analysis.SkyAnalysis):
                 self.plot_healpix_mollview(offsets[:,freq_index],super_pixels_index_array,self.nr_of_super_pixels,\
                                       title=r"Offset "+freq_str+" GHz",max=50)
                 plt.savefig(self.optimizer_plots_folder+"/offset_"+freq_str+".jpg")
+                self.plot_healpix_gnomview(offsets[:,freq_index],super_pixels_index_array,self.nr_of_super_pixels,\
+                                      title=r"Offset "+freq_str+" GHz",max=50,rot=self.rot,pixels=self.xsize)
+                plt.savefig(self.optimizer_plots_folder+"/"+"offset_zoom_"+freq_str+".jpg")
         #####  Plotting the rhos
         ## case for rho varying in each voxel
         if self.fixed_rho_along_sightline == False:
@@ -194,12 +197,18 @@ class SkyPlots(sky_analysis.SkyAnalysis):
                                       title=r"$\rho$ at distance slice "+str(ds_index) +\
                                       " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",max=2E-4)
                 plt.savefig(self.optimizer_plots_folder+"/rho_at_distance_slice_"+str(ds_index)+".jpg")
-
+                self.plot_healpix_gnomview(rhos[:,ds_index],super_pixels_index_array,self.nr_of_super_pixels,\
+                                      title=r"$\rho$ at distance slice "+str(ds_index) +\
+                                      " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",max=2E-4,rot=self.rot,pixels=self.xsize)
+                plt.savefig(self.optimizer_plots_folder+"/rho_zoom_at_distance_slice_"+str(ds_index)+".jpg")
         ## case for rho only varying in each superpixel, or fixed across the sky
         else:                          
             self.plot_healpix_mollview(rhos,super_pixels_index_array,self.nr_of_super_pixels,\
                                       title=r"$\rho$",max=2E-4)
             plt.savefig(self.optimizer_plots_folder+"/rho.jpg")
+            self.plot_healpix_gnomview(rhos,super_pixels_index_array,self.nr_of_super_pixels,\
+                                      title=r"$\rho$",max=2E-4,rot=self.rot,pixels=self.xsize)
+            plt.savefig(self.optimizer_plots_folder+"/rho_zoom.jpg")
         ##### Plotting the betas
         ## case for beta varying in each voxel
         if self.fixed_beta_along_sightline == False:
@@ -208,12 +217,19 @@ class SkyPlots(sky_analysis.SkyAnalysis):
                                       title=r"$\beta$ at distance slice "+str(ds_index) +\
                                       " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",max=2.5)
                 plt.savefig(self.optimizer_plots_folder+"/beta_at_distance_slice_"+str(ds_index)+".jpg")
+                self.plot_healpix_gnomview(betas[:,ds_index],super_pixels_index_array,self.nr_of_super_pixels,\
+                                      title=r"$\beta$ at distance slice "+str(ds_index) +\
+                                      " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",max=2.5,rot=self.rot,pixels=self.xsize)
+                plt.savefig(self.optimizer_plots_folder+"/beta_zoom_at_distance_slice_"+str(ds_index)+".jpg")
 
         ## case for beta only varying in each superpixel, or fixed across the sky
         else:
             self.plot_healpix_mollview(betas,super_pixels_index_array,self.nr_of_super_pixels,\
                                        title=r"$\beta$",max=2.5)
             plt.savefig(self.optimizer_plots_folder+"/beta.jpg")
+            self.plot_healpix_gnomview(betas,super_pixels_index_array,self.nr_of_super_pixels,\
+                                       title=r"$\beta$",max=2.5,rot=self.rot,pixels=self.xsize)
+            plt.savefig(self.optimizer_plots_folder+"/beta_zoom.jpg")
         ##### Plotting the Ts
         ## case for T varying in each voxel
         if self.fixed_T_along_sightline == False: 
@@ -222,12 +238,19 @@ class SkyPlots(sky_analysis.SkyAnalysis):
                                       title=r"$T$[K] at distance slice "+str(ds_index) +\
                                       " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",min=10,max=25)
                 plt.savefig(self.optimizer_plots_folder+"/T_at_distance_slice_"+str(ds_index)+".jpg")
+                self.plot_healpix_gnomview(Ts[:,ds_index],super_pixels_index_array,self.nr_of_super_pixels,\
+                                      title=r"$T$[K] at distance slice "+str(ds_index) +\
+                                      " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",min=10,max=25,rot=self.rot,pixels=self.xsize)
+                plt.savefig(self.optimizer_plots_folder+"/T_zoom_at_distance_slice_"+str(ds_index)+".jpg")
+
         ## case for T only varying in each superpixel
         else:
             self.plot_healpix_mollview(Ts,super_pixels_index_array,self.nr_of_super_pixels,\
                                       title=r"$T$[K]",max=50)
             plt.savefig(self.optimizer_plots_folder+"/T.jpg")
-
+            self.plot_healpix_gnomview(Ts,super_pixels_index_array,self.nr_of_super_pixels,\
+                                      title=r"$T$[K]",max=50,rot=self.rot,pixels=self.xsize)
+            plt.savefig(self.optimizer_plots_folder+"/T_zoom.jpg")
 
 
     def plot_reconstructed_total_emission(self,data_dict):
