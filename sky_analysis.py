@@ -58,7 +58,7 @@ class SkyAnalysis():
         self.super_pixel_size = int((self.full_maps_nside/self.super_pixel_nside)**2)
         self.sky_area = self.optimizer_parser.get('Analysis_configuration','sky_area')
         self.zoom_in_area = self.optimizer_parser.get('Analysis_configuration','zoom_in_area')
-        if self.sky_area == "rho_ophiuchi" or "cepheus":
+        if self.sky_area == "rho_ophiuchi" or "cepheus" or "tiny_cepheus":
             sky_area_dict=utils.get_sky_area_parameters(self.sky_area, self.super_pixel_nside)
             self.start_super_pixel=sky_area_dict['start_super_pixel']
             self.end_super_pixel=sky_area_dict['end_super_pixel']
@@ -509,7 +509,7 @@ class SkyAnalysis():
         super_pixels_index_array = np.array(range(start_pixel,end_pixel))
         n_chosen_super_pix = len(super_pixels_index_array) #Number of superpixels
 
-        nr_of_parallel_processes = 1
+        nr_of_parallel_processes = 10
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
             raise ValueError("Wrong nr of parralel processes or super pixels!!!")
         part_n_super_pixels = int(n_chosen_super_pix/nr_of_parallel_processes)

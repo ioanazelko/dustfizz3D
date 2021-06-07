@@ -253,6 +253,12 @@ def get_sky_area_parameters(sky_area, super_pixel_nside):
             dict_zoom['end_super_pixel']=96208
         else:
             raise ValueError("Calculate the zoom in super pixel index")
+    elif sky_area == "tiny_cepheus":
+        if super_pixel_nside == 128:
+            dict_zoom['start_super_pixel']=94548
+            dict_zoom['end_super_pixel']=94588
+        else:
+            raise ValueError("Calculate the zoom in super pixel index")
     else:
         raise ValueError("unknown sky area")
 
