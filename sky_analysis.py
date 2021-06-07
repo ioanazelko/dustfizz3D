@@ -59,7 +59,7 @@ class SkyAnalysis():
         self.sky_area = self.optimizer_parser.get('Analysis_configuration','sky_area')
         self.zoom_in_area = self.optimizer_parser.get('Analysis_configuration','zoom_in_area')
         if self.sky_area == "rho_ophiuchi" or "cepheus":
-            sky_area_dict=utils.get_sky_area_parameters(sky_area, self.super_pixel_nside)
+            sky_area_dict=utils.get_sky_area_parameters(self.sky_area, self.super_pixel_nside)
             self.start_super_pixel=sky_area_dict[start_super_pixel]
             self.end_super_pixel=sky_area_dict[end_super_pixel]
         elif self.sky_area == "full_sky":
