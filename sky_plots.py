@@ -299,12 +299,12 @@ if __name__ == "__main__":
     start_time = time.time()
 
     #p = SkyAnalysis("powell_nside_32_priors_T_unfixed")
-    #p = SkyPlots("test_bayestar2019",run_type='optimizer')
-    p = SkyPlots("tiny_cepheus_beta_varying",run_type='optimizer')
+    p = SkyPlots("test_bayestar2019",run_type='optimizer')
+    #p = SkyPlots("tiny_cepheus_beta_varying",run_type='optimizer')
     p.set_up_analysis()
     p.load_data()
     data_dict = p.load_optimizer_sky_data()
-
+    p.plot_smooth_dEB()
     p.plot_final_optimized_functions(data_dict)
     p.plot_optimizer_sky_parameters(data_dict)
     p.plot_reconstructed_total_emission(data_dict)
