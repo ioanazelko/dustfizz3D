@@ -396,6 +396,8 @@ class SkyAnalysis():
         
         nr_of_parallel_processes = 30
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
+            print("number of super pixels chosen for fit ", n_chosen_super_pix)
+            print("number of parallel process ", nr_of_parallel_processes)
             raise ValueError("Wrong nr of parralel processes or super pixels!!!")
         part_n_super_pixels = int(n_chosen_super_pix/nr_of_parallel_processes)
 
