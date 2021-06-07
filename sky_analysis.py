@@ -499,6 +499,7 @@ class SkyAnalysis():
     def run_sampler(self):
         #Selecting the super pixels for the fit
         self.sampler_options()
+        print("running the sampler now")
         optimizer_data_dict = self.load_optimizer_sky_data()
         optimizer_parameters = optimizer_data_dict["final_parameters_array"]
         optimizer_chi_square = optimizer_data_dict["final_chi_square_array"]

@@ -274,17 +274,19 @@ class SkyPlots(sky_analysis.SkyAnalysis):
 
 if __name__ == "__main__":
     start_time = time.time()
-    #plot_the_paper_plots()
-    #make_the_analysis()
-    
+
     #p = SkyAnalysis("powell_nside_32_priors_T_unfixed")
     p = SkyPlots("test_bayestar2019",run_type='optimizer')
     p.set_up_analysis()
-    
-    #p.run_optimizer()
-    #data_dict = p.load_optimizer_sky_data()
+    p.load_data()
+    data_dict = p.load_optimizer_sky_data()
 
-    #making_the_tables_of_the_paper()
+    p.plot_final_optimized_functions(data_dict)
+    p.plot_optimizer_sky_parameters(data_dict)
+    p.plot_reconstructed_total_emission(data_dict)
+    p.plot_total_difference_emission(data_dict)
+
+
     time_string = utils.end_time(start_time)
 
 
