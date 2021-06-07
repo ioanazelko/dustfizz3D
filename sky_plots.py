@@ -136,7 +136,7 @@ class SkyPlots(sky_analysis.SkyAnalysis):
 
             hp.gnomview(self.fixed_dEBV_smooth[ds_index], title=title, nest=True, max=1.,rot=self.rot,xsize=self.xsize)
             zoom_filename="dEBV_smooth_zoom_"+str(self.xsize)+"_slice_"+str(ds_index)+"_fixed.jpg"
-            plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/"+zoom_filename)
+            #plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/"+zoom_filename)
             plt.savefig(self.optimizer_plots_folder+"/"+zoom_filename)
 
     def plot_smooth_dEBV(self):
@@ -155,7 +155,7 @@ class SkyPlots(sky_analysis.SkyAnalysis):
 
             hp.gnomview(self.dEBV_smooth[ds_index], title=title, nest=True, max=1.,rot=self.rot,xsize=self.xsize)
             zoom_filename="dEBV_smooth_zoom_"+str(self.xsize)+"_slice_"+str(ds_index)+".jpg"
-            plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/"+zoom_filename)
+            #plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/"+zoom_filename)
             plt.savefig(self.optimizer_plots_folder+"/"+zoom_filename)
     #################################
     ### Optimizer functions
