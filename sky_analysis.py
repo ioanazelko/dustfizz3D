@@ -591,7 +591,7 @@ if __name__ == "__main__":
     start_time = time.time()
     #plot_the_paper_plots()
     #make_the_analysis()
-    p = SkyAnalysis("cepheus_beta_varying",run_type="optimizer")        
+    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="optimizer")        
     #p = SkyAnalysis("test_bayestar2019",run_type="optimizer")        
     #p = SkyAnalysis("powell_nside_128_priors_T_unfixed")        
     #p = SkyAnalysis("powell_nside_64_priors_T_unfixed")    

@@ -300,7 +300,7 @@ if __name__ == "__main__":
 
     #p = SkyAnalysis("powell_nside_32_priors_T_unfixed")
     #p = SkyPlots("test_bayestar2019",run_type='optimizer')
-    p = SkyPlots("cepheus_beta_varying",run_type='optimizer')
+    p = SkyPlots("tiny_cepheus_beta_varying",run_type='optimizer')
     p.set_up_analysis()
     p.load_data()
     data_dict = p.load_optimizer_sky_data()
