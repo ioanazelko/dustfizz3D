@@ -304,7 +304,7 @@ if __name__ == "__main__":
     p.set_up_analysis()
     p.load_data()
     data_dict = p.load_optimizer_sky_data()
-    p.plot_smooth_dEB()
+    p.plot_smooth_dEBV()
     p.plot_final_optimized_functions(data_dict)
     p.plot_optimizer_sky_parameters(data_dict)
     p.plot_reconstructed_total_emission(data_dict)
