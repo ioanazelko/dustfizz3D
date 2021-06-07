@@ -58,13 +58,14 @@ class SkyAnalysis():
         self.super_pixel_size = int((self.full_maps_nside/self.super_pixel_nside)**2)
         self.sky_area = self.optimizer_parser.get('Analysis_configuration','sky_area')
         self.zoom_in_area = self.optimizer_parser.get('Analysis_configuration','zoom_in_area')
-        if self.sky_area == "rho_ophiuchi":
+        if self.sky_area == "rho_ophiuchi" or "cepheus":
             sky_area_dict=utils.get_sky_area_parameters(sky_area, self.super_pixel_nside)
             self.start_super_pixel=sky_area_dict[start_super_pixel]
             self.end_super_pixel=sky_area_dict[end_super_pixel]
         elif self.sky_area == "full_sky":
             self.start_super_pixel=0
-            self.end_super_pixel=self.nr_of_super_pixels      
+            self.end_super_pixel=self.nr_of_super_pixels
+
         else:
             raise ValueError("Please specify the right region of the sky")
         ########## Zooming in parameters
