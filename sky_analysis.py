@@ -531,7 +531,7 @@ class SkyAnalysis():
                 final_chi_square_list = []
                 for i in range(part_n_super_pixels):
                 #for i in range(201,202):
-                    print("Running the optimizer for super_pixel ",i, 'process index', process_index)
+                    print("Running the sampler for super_pixel ",i, 'process index', process_index)
                     super_pixel_index=part_super_pixels_index_array[i]
                     #print("Running the sampler for super_pixel ",super_pixel_index)
                     ### To implement: disregard subpixels that are masked out

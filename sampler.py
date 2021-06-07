@@ -144,6 +144,9 @@ class Map3DSampler(model.Model):
             g.close()
         return data_dict
     def process_sampler_data(self):
+        """
+        needs some fixing
+        """
         throw_index=int(self.nruns/self.thinning/2)
         data = self.chain_unscaled_values[:,throw_index:,:].reshape((self.nwalkers*throw_index,self.ndim))
         df = pd.DataFrame(data)
