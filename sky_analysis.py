@@ -593,8 +593,9 @@ if __name__ == "__main__":
     #plot_the_paper_plots()
     #make_the_analysis()
 #    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="optimizer")
-    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="sampler")        
-        
+    p = SkyAnalysis("tiny_cepheus_beta_fixed",run_type="sampler")        
+    #p = SkyAnalysis("tiny_cepheus_beta_fixed_offsets_on",run_type="sampler")        
+    
     #p = SkyAnalysis("test_bayestar2019",run_type="optimizer")        
     #p = SkyAnalysis("powell_nside_128_priors_T_unfixed")        
     #p = SkyAnalysis("powell_nside_64_priors_T_unfixed")    
@@ -602,7 +603,7 @@ if __name__ == "__main__":
     #p = SkyAnalysis("powell_nside_32_no_priors")
     p.set_up_analysis()
     p.load_data()
-    #p.run_optimizer()
+    p.run_optimizer()
     p.run_sampler()
     #making_the_tables_of_the_paper()
     time_string = utils.end_time(start_time)
