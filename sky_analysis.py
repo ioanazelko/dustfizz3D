@@ -569,7 +569,7 @@ class SkyAnalysis():
                   
                     #check_initial_positions(s)
                     s.sample()
-                    s.process_sampler_data()
+                    #s.process_sampler_data()
 
                     data_sampler=s.load_run_data()
                     s.plot_chain_corner_plots(data_sampler,throw_away_burnout=True)
