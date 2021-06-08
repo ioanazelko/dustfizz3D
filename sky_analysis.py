@@ -601,9 +601,9 @@ if __name__ == "__main__":
     #run_list=["tiny_cepheus_beta_fixed2"]
     #run_list = ["tiny_cepheus_beta_varying2"]
     #run_list= ["tiny_cepheus_beta_fixed2_nside64"]
-    run_list=["tiny_cepheus_beta_fixed2_nside32" ]   
+    #run_list=["tiny_cepheus_beta_fixed2_nside32" ]   
 
-    #run_list= ["tiny_cepheus_beta_fixed_nside64"]
+    run_list= ["tiny_cepheus_beta_fixed_nside64"]
     #run_list=["tiny_cepheus_beta_fixed_nside32" ] 
     for run in run_list:
         print("Doing run ", run)
