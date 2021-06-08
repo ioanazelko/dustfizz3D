@@ -395,7 +395,7 @@ class SkyAnalysis():
         super_pixels_index_array = np.array(range(start_pixel,end_pixel))
         n_chosen_super_pix = len(super_pixels_index_array) #Number of superpixels
         
-        nr_of_parallel_processes = 20
+        nr_of_parallel_processes = 2
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
             print("number of super pixels chosen for fit ", n_chosen_super_pix)
             print("number of parallel process ", nr_of_parallel_processes)
@@ -598,9 +598,9 @@ if __name__ == "__main__":
     #        "tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ]  
     #run_list=["tiny_cepheus_beta_fixed2","tiny_cepheus_beta_variable2",
             #"tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ] 
-    #run_list=["tiny_cepheus_beta_fixed2"]
-    #run_list = ["tiny_cepheus_beta_variable2"]
-    run_list= ["tiny_cepheus_beta_fixed2_nside64"]
+    run_list=["tiny_cepheus_beta_fixed2"]
+    #run_list = ["tiny_cepheus_beta_varying2"]
+    #run_list= ["tiny_cepheus_beta_fixed2_nside64"]
     #run_list=["tiny_cepheus_beta_fixed2_nside32" ]   
 
 
