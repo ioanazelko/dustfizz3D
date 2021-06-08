@@ -256,8 +256,8 @@ def get_sky_area_parameters(sky_area, super_pixel_nside):
     elif sky_area == "tiny_cepheus":
         if super_pixel_nside == 128:
             ### the center is at 94558
-            dict_zoom['start_super_pixel']=94548
-            dict_zoom['end_super_pixel']=94588
+            dict_zoom['start_super_pixel']=94557
+            dict_zoom['end_super_pixel']=94559
         elif super_pixel_nside == 64:
             ### the center is at 23639
             dict_zoom['start_super_pixel']=23638

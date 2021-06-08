@@ -594,8 +594,16 @@ if __name__ == "__main__":
     #make_the_analysis()
 #    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="optimizer")
     #p = SkyAnalysis("tiny_cepheus_beta_fixed",run_type="sampler")  
-    run_list=["tiny_cepheus_beta_fixed2","tiny_cepheus_beta_variable2",
-            "tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ]  
+    #run_list=["tiny_cepheus_beta_fixed2","tiny_cepheus_beta_variable2",
+    #        "tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ]  
+    #run_list=["tiny_cepheus_beta_fixed2","tiny_cepheus_beta_variable2",
+            #"tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ] 
+    #run_list=["tiny_cepheus_beta_fixed2"]
+    #run_list = ["tiny_cepheus_beta_variable2"]
+    run_list= ["tiny_cepheus_beta_fixed2_nside64"]
+    #run_list=["tiny_cepheus_beta_fixed2_nside32" ]   
+
+
     for run in run_list:
         print("Doing run ", run)
         # p = SkyAnalysis(run,run_type="optimizer") 
