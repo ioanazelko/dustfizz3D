@@ -598,10 +598,13 @@ if __name__ == "__main__":
             "tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ]  
     for run in run_list:
         print("Doing run ", run)
-        p = SkyAnalysis(run,run_type="sampler")    
+        p = SkyAnalysis(run,run_type="optimizer") 
         p.set_up_analysis()
         p.load_data()
         p.run_optimizer()
+        p = SkyAnalysis(run,run_type="sampler") 
+        p.set_up_analysis()
+        p.load_data()
         p.run_sampler()
         time_string = utils.end_time(start_time)    
 
