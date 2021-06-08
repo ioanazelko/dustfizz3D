@@ -509,7 +509,7 @@ class SkyAnalysis():
         super_pixels_index_array = np.array(range(start_pixel,end_pixel))
         n_chosen_super_pix = len(super_pixels_index_array) #Number of superpixels
 
-        nr_of_parallel_processes = 10
+        nr_of_parallel_processes = 2
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
             raise ValueError("Wrong nr of parralel processes or super pixels!!!")
         part_n_super_pixels = int(n_chosen_super_pix/nr_of_parallel_processes)
@@ -598,13 +598,13 @@ if __name__ == "__main__":
             "tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ]  
     for run in run_list:
         print("Doing run ", run)
-        p = SkyAnalysis(run,run_type="optimizer") 
-        p.set_up_analysis()
-        p.load_data()
-        p.run_optimizer()
+        # p = SkyAnalysis(run,run_type="optimizer") 
+        # p.set_up_analysis()
+        # p.load_data()
         p = SkyAnalysis(run,run_type="sampler") 
         p.set_up_analysis()
         p.load_data()
+        p.run_optimizer()
         p.run_sampler()
         time_string = utils.end_time(start_time)    
 
