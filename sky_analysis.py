@@ -395,7 +395,7 @@ class SkyAnalysis():
         super_pixels_index_array = np.array(range(start_pixel,end_pixel))
         n_chosen_super_pix = len(super_pixels_index_array) #Number of superpixels
         
-        nr_of_parallel_processes = 1
+        nr_of_parallel_processes = 32
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
             print("number of super pixels chosen for fit ", n_chosen_super_pix)
             print("number of parallel process ", nr_of_parallel_processes)
