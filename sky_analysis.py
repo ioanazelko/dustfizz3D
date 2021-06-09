@@ -58,7 +58,7 @@ class SkyAnalysis():
         self.super_pixel_size = int((self.full_maps_nside/self.super_pixel_nside)**2)
         self.sky_area = self.optimizer_parser.get('Analysis_configuration','sky_area')
         self.zoom_in_area = self.optimizer_parser.get('Analysis_configuration','zoom_in_area')
-        if self.sky_area == "rho_ophiuchi" or "cepheus" or "tiny_cepheus":
+        if self.sky_area in ["rho_ophiuchi" ,"cepheus","tiny_cepheus"]:
             print("the sky area is ", self.sky_area)
             sky_area_dict=utils.get_sky_area_parameters(self.sky_area, self.super_pixel_nside)
             self.start_super_pixel=sky_area_dict['start_super_pixel']
