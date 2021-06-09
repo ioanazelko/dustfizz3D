@@ -417,8 +417,8 @@ class SkyAnalysis():
                 optimized_function_list = []
                 final_chi_square_list = []
                 for i in range(part_n_super_pixels):
-                    print("Running the optimizer for super_pixel ",i, 'process index', process_index)
-                    ### To implement: disregard subpixels that are masked out
+                    #print("Running the optimizer for super_pixel ",i, 'process index', process_index)
+                    #### To implement: disregard subpixels that are masked out
                     ### To implement: only fit superpixels with enough coverage by the extinction map
 
                     # transpose arrays here so that matrix operations work during model evaluation

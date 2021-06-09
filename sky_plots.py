@@ -41,16 +41,16 @@ class SkyPlots(sky_analysis.SkyAnalysis):
             hp.graticule()
             plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/healpix_nested"+str(NSIDE)+".jpg")
         return
-    def plot_healpix_mollview(self,data,pixel_index_array,total_sky_pixels,title,min=None,max=None,nest=True):
+    def plot_healpix_mollview(self,data,pixel_index_array,total_sky_pixels,title,min=None,max=None,nest=True,unit=None):
         plot_array = np.zeros(total_sky_pixels)
         plot_array[pixel_index_array]=data
-        hp.mollview(plot_array,title=title,nest=nest,min=min,max=max)
+        hp.mollview(plot_array,title=title,nest=nest,min=min,max=max,unit=unit)
 
 
-    def plot_healpix_gnomview(self,data,pixel_index_array,total_sky_pixels,title,min=None,max=None,nest=True,rot=(0,20),pixels=500):
+    def plot_healpix_gnomview(self,data,pixel_index_array,total_sky_pixels,title,min=None,max=None,nest=True,rot=(0,20),pixels=500,unit=None):
         plot_array = np.zeros(total_sky_pixels)
         plot_array[pixel_index_array]=data
-        hp.gnomview(plot_array,title=title,nest=nest,min=min,max=max,rot=rot,xsize=pixels)
+        hp.gnomview(plot_array,title=title,nest=nest,min=min,max=max,rot=rot,xsize=pixels,unit=unit)
     ################################
     #### Planck functions
     ################################
@@ -306,8 +306,9 @@ if __name__ == "__main__":
     #p = SkyPlots("tiny_cepheus_beta_varying",run_type='optimizer')
     p.set_up_analysis()
     p.load_data()
-    p.run_optimizer()
+    #p.run_optimizer()
     data_dict = p.load_optimizer_sky_data()
+    print("I am plotting the opimizer plots now")
     p.plot_smooth_dEBV()
     p.plot_final_optimized_functions(data_dict)
     p.plot_optimizer_sky_parameters(data_dict)
