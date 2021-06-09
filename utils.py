@@ -268,7 +268,7 @@ def get_sky_area_parameters(sky_area, super_pixel_nside):
             dict_zoom['end_super_pixel']=5910
         else:
             raise ValueError("Calculate the zoom in super pixel index")
-    elif sky_area == "tiny_cepheus_lower_right":
+    elif sky_area == "lower_right_tiny_cepheus":
         if super_pixel_nside == 128:
             ### the center is at 94558
             dict_zoom['start_super_pixel']=94534

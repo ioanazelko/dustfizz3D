@@ -58,7 +58,7 @@ class SkyAnalysis():
         self.super_pixel_size = int((self.full_maps_nside/self.super_pixel_nside)**2)
         self.sky_area = self.optimizer_parser.get('Analysis_configuration','sky_area')
         self.zoom_in_area = self.optimizer_parser.get('Analysis_configuration','zoom_in_area')
-        if self.sky_area in ["rho_ophiuchi" ,"cepheus","tiny_cepheus"]:
+        if self.sky_area in ["rho_ophiuchi" ,"cepheus","tiny_cepheus","lower_right_tiny_cepheus"]:
             print("the sky area is ", self.sky_area)
             sky_area_dict=utils.get_sky_area_parameters(self.sky_area, self.super_pixel_nside)
             self.start_super_pixel=sky_area_dict['start_super_pixel']
@@ -396,7 +396,7 @@ class SkyAnalysis():
         super_pixels_index_array = np.array(range(start_pixel,end_pixel))
         n_chosen_super_pix = len(super_pixels_index_array) #Number of superpixels
         
-        nr_of_parallel_processes = 32
+        nr_of_parallel_processes =1
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
             print("number of super pixels chosen for fit ", n_chosen_super_pix)
             print("number of parallel process ", nr_of_parallel_processes)
@@ -605,7 +605,13 @@ if __name__ == "__main__":
     #run_list=["tiny_cepheus_beta_fixed2_nside32" ]   
     #run_list= ["tiny_cepheus_beta_fixed_nside64"]
     #run_list=["tiny_cepheus_beta_fixed_nside32" ] 
-    run_list = ["tiny_cepheus_beta_varying_nside64"]
+    #run_list = ["tiny_cepheus_beta_varying_nside64"]
+    #run_list = ["tiny_cepheus_beta_varying_nside32"]
+
+    run_list = ["lower_right_tiny_cepheus_beta_fixed_nside128"]
+    #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside64"]
+    #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside32"]
+
     #run_list = ["tiny_cepheus_beta_varying_nside32"]
     for run in run_list:
         print("Doing run ", run)
