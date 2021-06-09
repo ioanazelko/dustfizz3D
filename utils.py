@@ -268,6 +268,21 @@ def get_sky_area_parameters(sky_area, super_pixel_nside):
             dict_zoom['end_super_pixel']=5910
         else:
             raise ValueError("Calculate the zoom in super pixel index")
+    elif sky_area == "tiny_cepheus_lower_right":
+        if super_pixel_nside == 128:
+            ### the center is at 94558
+            dict_zoom['start_super_pixel']=94534
+            dict_zoom['end_super_pixel']=94535
+        elif super_pixel_nside == 64:
+            ### the center is at 23639
+            dict_zoom['start_super_pixel']=23633
+            dict_zoom['end_super_pixel']=23634
+        elif super_pixel_nside == 32:
+            ### the center is at 5909
+            dict_zoom['start_super_pixel']=5908
+            dict_zoom['end_super_pixel']=5909
+        else:
+            raise ValueError("Calculate the zoom in super pixel index")
     else:
         raise ValueError("unknown sky area")
 
