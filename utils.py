@@ -112,7 +112,7 @@ def calculate_smoothing_psf(data_type,target_psf=10.,NSIDE=1024):
     """
     
     if data_type=="Planck":
-        #https://www.wikiwand.com/en/Planck_(spacecraft)
+        #https://www.wikiwand.com/en/Planck_(spacecraft)217GH
         ## I have no idea what PSF the SFD/IRAS map has, ask Doug
         original_psf = np.array([5.5,5.0,5.0,5.0,6.1])
 
