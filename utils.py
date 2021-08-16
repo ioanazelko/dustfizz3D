@@ -253,7 +253,7 @@ def get_sky_area_parameters(sky_area, super_pixel_nside):
             dict_zoom['end_super_pixel']=96208
         else:
             raise ValueError("Calculate the zoom in super pixel index")
-    elif sky_area == "tiny_cepheus":
+    elif sky_area == "tiny_cepheus": #, l,b=(99.5,10.2)
         if super_pixel_nside == 128:
             ### the center is at 94558
             dict_zoom['start_super_pixel']=94557
@@ -302,6 +302,7 @@ def get_sky_area_zoom_in_parameters(zoom_in_area):
     return dict_zoom
 
 def get_cepheus_healpix_index(map_nside, nested=True):
+    cepheus_bi_cloud_point = (99.5,10.2)
     cepheus_bi_cloud_point = (99.5,10.2)
     l,b= cepheus_bi_cloud_point
     return l_and_b_to_healpix_index(map_nside=map_nside,l=l,b=b,nested=nested)

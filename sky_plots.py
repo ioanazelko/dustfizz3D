@@ -264,10 +264,10 @@ class SkyPlots(sky_analysis.SkyAnalysis):
             print("Title is",title)
             self.plot_healpix_mollview(total_emission_array[:,freq_index],full_resolution_pixel_index_array,\
                                     self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,unit='MJySr-1')
-            plt.savefig(self.optimizer_plots_folder+"/total_reconstructed_emisssion_"+freq_str+".jpg")
-            plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/total_reconstructed_emisssion_"+\
+            plt.savefig(self.optimizer_plots_folder+"/total_reconstructed_emission_"+freq_str+".jpg")
+            plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/total_reconstructed_emission_"+\
                         freq_str+".jpg")
-            plt.savefig(self.optimizer_plots_folder+"/total_reconstructed_emisssion_"+\
+            plt.savefig(self.optimizer_plots_folder+"/total_reconstructed_emission_"+\
                         freq_str+".pdf")
             self.plot_healpix_gnomview(total_emission_array[:,freq_index],full_resolution_pixel_index_array,\
                                     self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,rot=self.rot,pixels=self.xsize,unit='MJySr-1')
@@ -286,7 +286,7 @@ class SkyPlots(sky_analysis.SkyAnalysis):
             print("Title is",title)
             self.plot_healpix_mollview(total_difference_array[:,freq_index],full_resolution_pixel_index_array,\
                                     self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,unit='MJySr-1')
-            full_sky_name  = "total_difference_emisssion_"+freq_str+".jpg"
+            full_sky_name  = "total_difference_emission_"+freq_str+".jpg"
             plt.savefig(self.optimizer_plots_folder+"/"+full_sky_name)
             plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/"+full_sky_name)
             plt.savefig(self.optimizer_plots_folder+"/"+full_sky_name)
@@ -302,11 +302,13 @@ if __name__ == "__main__":
 
     #p = SkyAnalysis("powell_nside_32_priors_T_unfixed")
     #p = SkyPlots("test_bayestar2019",run_type='optimizer')
-    p = SkyPlots("bayestar_2019_full_sky_beta_fixed",run_type='optimizer')
+    #p = SkyPlots("bayestar_2019_full_sky_beta_fixed",run_type='optimizer')
+    p = SkyPlots("bayestar_2019_full_sky_beta_fixed_nside_64",run_type='optimizer')
+    #p = SkyPlots("bayestar_2019_full_sky_beta_fixed_nside_128",run_type='optimizer')
     #p = SkyPlots("tiny_cepheus_beta_varying",run_type='optimizer')
     p.set_up_analysis()
     p.load_data()
-    #p.run_optimizer()
+    p.run_optimizer()
     data_dict = p.load_optimizer_sky_data()
     print("I am plotting the opimizer plots now")
     p.plot_smooth_dEBV()
