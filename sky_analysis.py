@@ -456,9 +456,9 @@ class SkyAnalysis():
                 final_optimized_function_array = np.array(optimized_function_list)
                 final_chi_square_array = np.array(final_chi_square_list)
 
-                print("I am calculating the final emission accross the sky and voxels")
-                voxel_emission_array, total_emission_array, total_difference_array, full_resolution_pixel_index_array=\
-                    self.calculate_reconstructed_emission_data(final_parameters_array,part_super_pixels_index_array)
+                # print("I am calculating the final emission accross the sky and voxels")
+                # voxel_emission_array, total_emission_array, total_difference_array, full_resolution_pixel_index_array=\
+                #     self.calculate_reconstructed_emission_data(final_parameters_array,part_super_pixels_index_array)
                 partial_data_dict = {}
                 partial_data_dict["final_parameters_array"]=final_parameters_array
                 partial_data_dict["final_optimized_functions_array"] = final_optimized_function_array
