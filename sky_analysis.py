@@ -27,8 +27,9 @@ import sampler
 
 
 class SkyAnalysis():
-    def __init__(self, run_name,run_type):
+    def __init__(self, run_name,run_type, nr_of_parallel_processes=4):
         self.run_type= run_type
+        self.nr_of_parallel_processes=nr_of_parallel_processes
         if run_type == "sampler":
             self.sampler_run_name=run_name
             sampler_parser = ConfigParser()
@@ -259,15 +260,21 @@ class SkyAnalysis():
 
 
     def save_optimizer_sky_data(self,data_dict,file_index=""):
+
+        """ At the beginning these were saved as float64. There may be some files that I read that
+        were from that time. I switched to float32 to because this amount of precission was not needed
+        for the numbers I deal with, so they were taing too much space in the memory of the computerss."""
+        
         with h5py.File(self.optimizer_data_folder+"/"+self.optimizer_run_name+file_index+".hdf5", "w") as f:
-            f.create_dataset("final_parameters_array",data=data_dict["final_parameters_array"] ,dtype='float64')
-            f.create_dataset("final_optimized_functions_array",data=data_dict["final_optimized_functions_array"],dtype='float64')
-            f.create_dataset("final_chi_square_array",data=data_dict["final_chi_square_array"],dtype='float64')
+            f.create_dataset("final_parameters_array",data=data_dict["final_parameters_array"] ,dtype='float32')
+            f.create_dataset("final_optimized_functions_array",data=data_dict["final_optimized_functions_array"],dtype='float32')
+            f.create_dataset("final_chi_square_array",data=data_dict["final_chi_square_array"],dtype='float32')
             f.create_dataset("super_pixels_index_array",data=data_dict["super_pixels_index_array"],dtype='int')
-            f.create_dataset("voxel_emission_array",data=data_dict["voxel_emission_array"],dtype='float64')
-            f.create_dataset("total_emission_array",data=data_dict["total_emission_array"],dtype='float64')
-            f.create_dataset("total_difference_array",data=data_dict["total_difference_array"],dtype='float64')
-            f.create_dataset("full_resolution_pixel_index_array",data=data_dict["full_resolution_pixel_index_array"],dtype='int')
+            ### These are commented out because we didn't want the 3D emission maps to be saved, they take an insane amount of space
+            #f.create_dataset("voxel_emission_array",data=data_dict["voxel_emission_array"],dtype='float32')
+            #f.create_dataset("total_emission_array",data=data_dict["total_emission_array"],dtype='float32')
+            #f.create_dataset("total_difference_array",data=data_dict["total_difference_array"],dtype='float32')
+            #f.create_dataset("full_resolution_pixel_index_array",data=data_dict["full_resolution_pixel_index_array"],dtype='int')
             f.attrs["optimizer_configuration"] = str(self.optimizer_configuration_parameters)
             f.attrs["model_configuration"] = str(self.model_configuration_dictionary)
             f.attrs["analysis_configuration"]= str(self.analysis_configuration_dictionary)
@@ -279,10 +286,11 @@ class SkyAnalysis():
             data_dict["final_optimized_functions_array"] = g["final_optimized_functions_array"][()]
             data_dict["final_chi_square_array"] = g["final_chi_square_array"][()]
             data_dict["super_pixels_index_array"] = g["super_pixels_index_array"][()]
-            data_dict["voxel_emission_array"] = g["voxel_emission_array"][()]
-            data_dict["total_emission_array"] = g["total_emission_array"][()]
-            data_dict["total_difference_array"] = g["total_difference_array"][()]
-            data_dict["full_resolution_pixel_index_array"] = g["full_resolution_pixel_index_array"][()]
+            ### These are commented out because we didn't want the 3D emission maps to be saved, they take an insane amount of space
+            #data_dict["voxel_emission_array"] = g["voxel_emission_array"][()]
+            #data_dict["total_emission_array"] = g["total_emission_array"][()]
+            #data_dict["total_difference_array"] = g["total_difference_array"][()]
+            #data_dict["full_resolution_pixel_index_array"] = g["full_resolution_pixel_index_array"][()]
             stored_optimizer_configuration = g.attrs["optimizer_configuration"]
             stored_model_configuration = g.attrs["model_configuration"]
             stored_analysis_configuration = g.attrs["analysis_configuration"]
@@ -396,7 +404,7 @@ class SkyAnalysis():
         super_pixels_index_array = np.array(range(start_pixel,end_pixel))
         n_chosen_super_pix = len(super_pixels_index_array) #Number of superpixels
         
-        nr_of_parallel_processes = 32
+        nr_of_parallel_processes = self.nr_of_parallel_processes
         # for holyfink01 it is ok to set it up to 36, as long as the superpixels number divides bu the choice
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
             print("number of super pixels chosen for fit ", n_chosen_super_pix)
@@ -456,10 +464,11 @@ class SkyAnalysis():
                 partial_data_dict["final_optimized_functions_array"] = final_optimized_function_array
                 partial_data_dict["final_chi_square_array"] = final_chi_square_array
                 partial_data_dict["super_pixels_index_array"] = part_super_pixels_index_array
-                partial_data_dict["voxel_emission_array"] = voxel_emission_array
-                partial_data_dict["total_emission_array"] = total_emission_array
-                partial_data_dict["total_difference_array"] = total_difference_array
-                partial_data_dict["full_resolution_pixel_index_array"] = full_resolution_pixel_index_array
+                ### These are commented out because we didn't want the 3D emission maps to be saved, they take an insane amount of space
+                #partial_data_dict["voxel_emission_array"] = voxel_emission_array
+                #partial_data_dict["total_emission_array"] = total_emission_array
+                #partial_data_dict["total_difference_array"] = total_difference_array
+                #partial_data_dict["full_resolution_pixel_index_array"] = full_resolution_pixel_index_array
 
                 self.save_optimizer_sky_data(partial_data_dict,file_index="_"+str(process_index))
                 #print(parallel_dict.keys())
@@ -476,8 +485,12 @@ class SkyAnalysis():
         parallel_dict={}
 
         for process_index in range(nr_of_parallel_processes):
+            file_index = "_"+str(process_index)
 
-            parallel_dict[str(process_index)]=self.load_optimizer_sky_data(file_index="_"+str(process_index))
+            parallel_dict[str(process_index)]=self.load_optimizer_sky_data(file_index=file_index)
+            file_path = self.optimizer_data_folder+"/"+self.optimizer_run_name+file_index+".hdf5"
+            ###Removing the files that contain the data only for some of the processes, since it will be saved into a single file.
+            os.remove(file_path)
 
         ### Now I need to concatenate the data from the processes into an individual coherent chain
         data_dict={}
@@ -511,7 +524,7 @@ class SkyAnalysis():
         super_pixels_index_array = np.array(range(start_pixel,end_pixel))
         n_chosen_super_pix = len(super_pixels_index_array) #Number of superpixels
 
-        nr_of_parallel_processes = 1
+        nr_of_parallel_processes = self.nr_of_parallel_processes
         if n_chosen_super_pix%nr_of_parallel_processes !=0:
             raise ValueError("Wrong nr of parralel processes or super pixels!!!")
         part_n_super_pixels = int(n_chosen_super_pix/nr_of_parallel_processes)

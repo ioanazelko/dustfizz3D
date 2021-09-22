@@ -22,8 +22,8 @@ import sky_analysis
 
 
 class SkyPlots(sky_analysis.SkyAnalysis):
-    def __init__(self, run_name, run_type):
-        sky_analysis.SkyAnalysis.__init__(self, run_name, run_type)
+    def __init__(self, run_name, run_type, nr_of_parallel_processes):
+        sky_analysis.SkyAnalysis.__init__(self, run_name, run_type, nr_of_parallel_processes)
    
     def plot_in_3D(self):
         ## there is a python package that plots 3D, I can use it if I want to
@@ -304,18 +304,22 @@ if __name__ == "__main__":
     #p = SkyPlots("test_bayestar2019",run_type='optimizer')
     #p = SkyPlots("bayestar_2019_full_sky_beta_fixed",run_type='optimizer')
     #p = SkyPlots("bayestar_2019_full_sky_beta_fixed_nside_64",run_type='optimizer')
-    p = SkyPlots("bayestar_2019_full_sky_beta_fixed_nside_128",run_type='optimizer')
+    #p = SkyPlots("bayestar_2019_full_sky_beta_fixed_nside_128",run_type='optimizer')
     #p = SkyPlots("tiny_cepheus_beta_varying",run_type='optimizer')
+    #p = SkyPlots("test_optimizer",run_type='optimizer', nr_of_parallel_processes=1)
+    p= SkyPlots('bayestar_2019_full_sky_beta_fixed_nside_128_3D.cfg',run_type='optimizer', nr_of_parallel_processes=32)
+    
     p.set_up_analysis()
     p.load_data()
     p.run_optimizer()
     data_dict = p.load_optimizer_sky_data()
-    print("I am plotting the opimizer plots now")
+    #print()
+    print("I am plotting the optimizer plots now")
     p.plot_smooth_dEBV()
     p.plot_final_optimized_functions(data_dict)
     p.plot_optimizer_sky_parameters(data_dict)
-    p.plot_reconstructed_total_emission(data_dict)
-    p.plot_total_difference_emission(data_dict)
+    #p.plot_reconstructed_total_emission(data_dict)
+    #p.plot_total_difference_emission(data_dict)
 
 
     time_string = utils.end_time(start_time)
