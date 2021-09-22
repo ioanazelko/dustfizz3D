@@ -307,7 +307,7 @@ if __name__ == "__main__":
     #p = SkyPlots("bayestar_2019_full_sky_beta_fixed_nside_128",run_type='optimizer')
     #p = SkyPlots("tiny_cepheus_beta_varying",run_type='optimizer')
     #p = SkyPlots("test_optimizer",run_type='optimizer', nr_of_parallel_processes=1)
-    p= SkyPlots('bayestar_2019_full_sky_beta_fixed_nside_128_3D.cfg',run_type='optimizer', nr_of_parallel_processes=32)
+    p= SkyPlots('bayestar_2019_full_sky_beta_fixed_nside_128_3D',run_type='optimizer', nr_of_parallel_processes=32)
     
     p.set_up_analysis()
     p.load_data()
