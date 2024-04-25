@@ -25,10 +25,6 @@ import str2bool                      ### For converting the read value from the 
 import subprocess                    ### To be able to read the git HASH
 import time                          ### To keep track of the program run time
 
-DUST_3D_TEMPERATURE_MAP_DATA_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_DATA_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_CODE_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_CODE_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION"]
-sys.path.insert(0, DUST_3D_TEMPERATURE_MAP_CODE_LOCATION)
 
 import model
 import plot_utils

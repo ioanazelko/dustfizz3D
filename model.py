@@ -8,17 +8,14 @@ import sys
 
 
 import numpy as np
-DUST_3D_TEMPERATURE_MAP_DATA_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_DATA_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_CODE_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_CODE_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION"]
-sys.path.insert(0, DUST_3D_TEMPERATURE_MAP_CODE_LOCATION)
+
+
 
 from configparser import ConfigParser                  ### For parsing the configuration file
-UNIVERSAL_CONSTANTS_LOCATION = os.environ["UNIVERSAL_CONSTANTS_LOCATION"]
+UNIVERSAL_CONSTANTS_LOCATION = os.path.join(os.path.dirname(__file__), 'constant_configuration.cfg') #this adds the right slash for the OS being using
 
 parser = ConfigParser()
-parser.read(UNIVERSAL_CONSTANTS_LOCATION+"/constant_configuration.cfg")
+parser.read(UNIVERSAL_CONSTANTS_LOCATION)
 c = np.float64(parser.get('Universal Constants','c')) ## m*s-1
 h = np.float64(parser.get('Universal Constants','h')) ## J*s
 k = np.float64(parser.get('Universal Constants','k')) ## J*K-1
@@ -32,7 +29,7 @@ class Model():
         ### Loading the Data
         self.super_pixel_dEBV=data_dictionary["super_pixel_dEBV"] #(pixel_index,distance_slice)
         self.super_pixel_emission=data_dictionary["super_pixel_emission"] #(pixel_index,frequency)
-        self.super_pixel_sigma_array=data_dictionary["super_pixel_sigma_array"] #(pixel_index,frequency)
+        self=data_dictionary["super_pixel_sigma_array"] #(pixel_index,frequency)
         self.freq_array = data_dictionary["freq_array"] #[217,353,545,857,2998] #GHz
         self.nfreq = len(self.freq_array)
         ### Model Configuration

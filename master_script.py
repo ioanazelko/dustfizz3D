@@ -1,40 +1,33 @@
-import os
-import sys
-
-from configparser import ConfigParser                  ### For parsing the configuration file
-import healpy as hp
-import h5py
-import matplotlib.pyplot as plt
-from multiprocessing import Process, Manager  ### To run the processes in parallel on multiple corres
-import numpy as np
-import str2bool                      ### For converting the read value from the configuration parser from string to bool
-import time
-
-
-DUST_3D_TEMPERATURE_MAP_DATA_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_DATA_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_CODE_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_CODE_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION"]
-sys.path.insert(0, DUST_3D_TEMPERATURE_MAP_CODE_LOCATION)
-
-
+# This is the master script that runs the entire code.
 import data_processing
 import model
 import optimizer
 import utils
 import sampler
+import sky_plots
+
+##################################
+##### How to generate data with mathing PSFs
+##################################
+
+### Making the smooth ebv maps
+data_processing.make_smooth_ebv()
+## Making the smooth planck and IRAS maps
+data_processing.make_smooth_planck()
+
+##################################
+##### How to generate the paper plots
+##################################
+
+#### Figure 7 (rho, and beta)
 
 
-
-
-def make_smooth_maps():
-	#### Smooth the EBV data
-	start_time = time.time()
-    
-    #### Making the smooth ebv maps; this takes 1h 10 min , and needs a lot of RAM, so better be done with a machine that has 
-    ### more than 50GB of RAM
-    data_proc_dict = {'bayestar_version':"bayestar2019",'bayestar_nside':1024,'planck_version':"albert",'planck_nside':1024}
-    data_proc= data_processing.DataProcessing(data_proc_dict)
-    data_proc.smooth_ebv()
-    time_string = utils.end_time(start_time)
-
+p= sky_plots.SkyPlots('bayestar_2019_full_sky_beta_fixed_nside_128_3D_5_steps',run_type='optimizer', nr_of_parallel_processes=32)
+p.set_up_analysis()
+data_dict = p.load_optimizer_sky_data()
+#### and Figure 8 (Ts), 128, and 64
+##### need to do the ther runs at 128 and 64 that have the same steps
+p= sky_plots.SkyPlots('bayestar_2019_full_sky_beta_fixed_nside_128_3D_5_steps',run_type='optimizer', nr_of_parallel_processes=32)
+p.set_up_analysis()
+p.load_data()
+data_dict = p.load_optimizer_sky_data()

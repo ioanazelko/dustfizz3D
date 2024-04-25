@@ -7,10 +7,10 @@ import numpy as np
 import time
 
 from configparser import ConfigParser                  ### For parsing the configuration file
-UNIVERSAL_CONSTANTS_LOCATION = os.environ["UNIVERSAL_CONSTANTS_LOCATION"]
+UNIVERSAL_CONSTANTS_LOCATION = os.path.join(os.path.dirname(__file__), 'constant_configuration.cfg') #this adds the right slash for the OS being using
 
 parser = ConfigParser()
-parser.read(UNIVERSAL_CONSTANTS_LOCATION+"/constant_configuration.cfg")
+parser.read(UNIVERSAL_CONSTANTS_LOCATION)
 c = np.float64(parser.get('Universal Constants','c')) ## m*s-1
 h = np.float64(parser.get('Universal Constants','h')) ## J*s
 k = np.float64(parser.get('Universal Constants','k')) ## J*K-1
@@ -39,6 +39,16 @@ def one_set_ISM_dust_MBB(nu_array, MBB_params):
     #print "planck length:" , len(p)
     I_D = tau*((scaled_nu_array/nu0)**beta_D)*B
     return I_D
+
+# 3D dust temperature map properties
+
+def dust_temperature_map_frequency_array():
+    """
+    Returns the frequency array for the 3D dust temperature map in GHz
+    
+    """
+    return  np.array([217.,353.,545.,857.,2998.]) #GHz
+
 
 # Save numpy array as Primary HDU in specified FITS file
 def saveArray(array, filename='temp.fits'):
@@ -93,7 +103,7 @@ def print_NSIDE_res(NSIDE):
 ### smoothing functions
 def get_bayestar_psf(NSIDE):
     """
-    returns psf in arcmin
+    Returns psf in arcmin, equivalent to the FWHM
     """
     return hp.nside2resol(NSIDE, arcmin=True) 
 
@@ -106,15 +116,21 @@ def get_rad_from_arcmin(arcmin):
 def calculate_smoothing_psf(data_type,target_psf=10.,NSIDE=1024):
     """
     target_psf is expected in arcmin
+    Returns the FWHM of the smoothing PSF in arcmin
     
     target_spf = sqrt(smoothing_psf**2+original_psf**2)
     smoothing_psf = sqrt(target_psf**2-original_psf**2)
+
+
     """
     
     if data_type=="Planck":
         #https://www.wikiwand.com/en/Planck_(spacecraft)217GH
         ## I have no idea what PSF the SFD/IRAS map has, ask Doug
         original_psf = np.array([5.5,5.0,5.0,5.0,6.1])
+        ## these give the resolution value, equal to the full width half max, or the PSF value
+        ## FWHM = 2 (2 ln2)**0.5 *sigma = 2.355 sigma
+
 
     elif data_type =="Bayestar":
         original_psf = get_bayestar_psf(NSIDE)
@@ -187,6 +203,38 @@ def colorblind_color_dict_15():
     return color_name_dict
 
 
+
+
+def plot_colordict():
+    """
+    Function to be used to visualize the choice of colors
+    that work for all colorblind types
+    """
+    c_dict = colorblind_color_dict_15()
+    fig, ax =plt.subplots(figsize=(12,8))
+    linewidth=8
+    ax.plot(np.array(range(10)),c=c_dict["cb_black"], label="black", linewidth=linewidth)
+    ax.plot(np.array(range(10))+1,c=c_dict["cb_dark_green"], label="dark_green", linewidth=linewidth)
+    ax.plot(np.array(range(10))+2,c=c_dict["cb_blue_green"], label="blue_green", linewidth=linewidth)
+    ax.plot(np.array(range(10))+3,c=c_dict["cb_blue"], label="blue", linewidth=linewidth)
+    ax.plot(np.array(range(10))+4,c=c_dict["cb_medium_blue"], label="medium_blue", linewidth=linewidth)
+    ax.plot(np.array(range(10))+5,c=c_dict["cb_light_blue"], label="light_blue", linewidth=linewidth)
+    ax.plot(np.array(range(10))+6,c=c_dict["cb_bright_pink"], label="bright_pink", linewidth=linewidth)
+    ax.plot(np.array(range(10))+7,c=c_dict["cb_light_pink"], label="light_pink", linewidth=linewidth)
+    ax.plot(np.array(range(10))+8,c=c_dict["cb_magenta"], label="magenta", linewidth=linewidth)
+    ax.plot(np.array(range(10))+9,c=c_dict["cb_purple"], label="purple", linewidth=linewidth)
+    ax.plot(np.array(range(10))+10,c=c_dict["cb_red"], label="red", linewidth=linewidth)
+    ax.plot(np.array(range(10))+11,c=c_dict["cb_brown"], label="brown", linewidth=linewidth)
+    ax.plot(np.array(range(10))+12,c=c_dict["cb_orange"], label="orange", linewidth=linewidth)
+    ax.plot(np.array(range(10))+13,c=c_dict["cb_bright_green"], label="bright_green", linewidth=linewidth)
+    ax.plot(np.array(range(10))+14,c=c_dict["cb_yellow"], label="yellow", linewidth=linewidth)
+    ax.legend(loc="lower right", fontsize=15)
+
+#####################################
+#### MCMC functions
+#####################################
+
+
 def gelman_rubin_convergence_test(data_from_chains):
     ### Assumes the data_from_chains array has shape (nwalkers, nruns, nparams), nparams being the nr of size dist params (11)
 
@@ -235,7 +283,7 @@ def gelman_rubin_convergence_test(data_from_chains):
 
 
 #####################################
-#### Sky areas parameters
+#### Specific sky areas parameters
 #####################################
 
 def get_sky_area_parameters(sky_area, super_pixel_nside):

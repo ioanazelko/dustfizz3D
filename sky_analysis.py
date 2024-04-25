@@ -11,11 +11,11 @@ import str2bool                      ### For converting the read value from the 
 import time
 
 
-DUST_3D_TEMPERATURE_MAP_DATA_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_DATA_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_CODE_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_CODE_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION"]
-sys.path.insert(0, DUST_3D_TEMPERATURE_MAP_CODE_LOCATION)
+from general_settings import Settings
+settings = Settings()
+DATA_LOCATION = settings.data_location
+PLOTS_LOCATION = settings.plots_location
+CONFIGURATIONS_LOCATION = settings.code_location
 
 
 import data_processing
@@ -33,14 +33,14 @@ class SkyAnalysis():
         if run_type == "sampler":
             self.sampler_run_name=run_name
             sampler_parser = ConfigParser()
-            sampler_parser.read(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/configurations/sampler/"+self.sampler_run_name+".cfg")
+            sampler_parser.read(CONFIGURATIONS_LOCATION+"/sampler/"+self.sampler_run_name+".cfg")
             self.sampler_parser = sampler_parser
             self.optimizer_run_name=self.sampler_parser.get('Sampler_configuration','optimizer_run_name')
         elif run_type == "optimizer":
             self.optimizer_run_name=run_name
 
         optimizer_parser = ConfigParser()
-        optimizer_parser.read(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/configurations/optimizer/"+self.optimizer_run_name+".cfg")
+        optimizer_parser.read(CONFIGURATIONS_LOCATION+"/optimizer/"+self.optimizer_run_name+".cfg")
         
         self.optimizer_parser = optimizer_parser
         self.set_analysis_parameters()
@@ -85,19 +85,19 @@ class SkyAnalysis():
 
         ######### Emission map parameters
         self.use_smooth_planck = str2bool.str2bool(self.optimizer_parser.get('Analysis_configuration','use_smooth_planck'))
-        self.freq_array =np.array([217.,353.,545.,857.,2998.]) #GHz
+        self.freq_array =utils.dust_temperature_map_frequency_array() #GHz
         self.nfreq = len(self.freq_array)
         self.get_the_sigma_for_each_frequency_band()
         ######### Data structure
         ## Make the folders
-        self.optimizer_plots_folder = DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION+"/optimizer/"+self.optimizer_run_name
+        self.optimizer_plots_folder = PLOTS_LOCATION+"/optimizer/"+self.optimizer_run_name
         if os.path.isdir(self.optimizer_plots_folder):
             pass
         else:
             os.mkdir(self.optimizer_plots_folder)
             for i in range(self.nfreq):
                 os.mkdir(self.optimizer_plots_folder+"/"+str(int(self.freq_array[i])))
-        self.optimizer_data_folder = DUST_3D_TEMPERATURE_MAP_DATA_LOCATION+"/optimizer_fits/"+self.optimizer_run_name
+        self.optimizer_data_folder = DATA_LOCATION+"/3D_dust_temperature/optimizer_fits/"+self.optimizer_run_name
         
         if os.path.isdir(self.optimizer_data_folder):
             pass
@@ -105,13 +105,13 @@ class SkyAnalysis():
             os.mkdir(self.optimizer_data_folder)
 
         if self.run_type == "sampler":
-            self.sampler_plots_folder = DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION+"/sampler/"+self.sampler_run_name
+            self.sampler_plots_folder = PLOTS_LOCATION+"/sampler/"+self.sampler_run_name
             if os.path.isdir(self.sampler_plots_folder):
                 pass
             else:
                 os.mkdir(self.sampler_plots_folder)
 
-            self.sampler_data_folder =  DUST_3D_TEMPERATURE_MAP_DATA_LOCATION+"/sampler/"+self.sampler_run_name
+            self.sampler_data_folder =  DATA_LOCATION+"/3D_dust_temperature/sampler/"+self.sampler_run_name
             if os.path.isdir(self.sampler_data_folder):
                 pass
             else:
@@ -583,7 +583,7 @@ class SkyAnalysis():
 
                   
                     #check_initial_positions(s)
-                    s.sample()
+                    #s.sample()
                     #s.process_sampler_data()
 
                     data_sampler=s.load_run_data()
@@ -622,21 +622,21 @@ if __name__ == "__main__":
     #run_list = ["tiny_cepheus_beta_varying_nside64"]
     #run_list = ["tiny_cepheus_beta_varying_nside32"]
 
-    run_list = ["lower_right_tiny_cepheus_beta_fixed_nside128"]
+    #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside128"]
     #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside64"]
     #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside32"]
 
-    #run_list = ["tiny_cepheus_beta_varying_nside32"]
+    run_list = ["tiny_cepheus_beta_varying_nside32"]
     for run in run_list:
         print("Doing run ", run)
-        # p = SkyAnalysis(run,run_type="optimizer") 
-        # p.set_up_analysis()
-        # p.load_data()
-        p = SkyAnalysis(run,run_type="sampler") 
+        p = SkyAnalysis(run,run_type="optimizer") 
         p.set_up_analysis()
-        p.load_data()
-        p.run_optimizer()
-        p.run_sampler()
+        # p.load_data()
+        #p = SkyAnalysis(run,run_type="sampler") 
+        #p.set_up_analysis()
+        #p.load_data()
+        #p.run_optimizer()
+        #p.run_sampler()
         time_string = utils.end_time(start_time)    
 
     

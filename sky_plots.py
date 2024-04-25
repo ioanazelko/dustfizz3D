@@ -4,6 +4,8 @@ from __future__ import division,print_function
 
 import os
 import sys
+import copy
+import ephem
 import healpy as hp
 import matplotlib as mpl             ### For plotting options
 import matplotlib.pyplot as plt
@@ -22,7 +24,7 @@ import sky_analysis
 
 
 class SkyPlots(sky_analysis.SkyAnalysis):
-    def __init__(self, run_name, run_type, nr_of_parallel_processes):
+    def __init__(self, run_name, run_type, nr_of_parallel_processes=1):
         sky_analysis.SkyAnalysis.__init__(self, run_name, run_type, nr_of_parallel_processes)
    
     def plot_in_3D(self):
@@ -41,16 +43,53 @@ class SkyPlots(sky_analysis.SkyAnalysis):
             hp.graticule()
             plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/healpix_nested"+str(NSIDE)+".jpg")
         return
-    def plot_healpix_mollview(self,data,pixel_index_array,total_sky_pixels,title,min=None,max=None,nest=True,unit=None):
+
+    def create_declination_mask(self, nested=True):
+        ### mask the map at np.abs(declinations) larger than 30
+        ### we used nested data sets in this analysis
+        ### inspired from https://stackoverflow.com/questions/29007648/pyephem-coordinate-transformation-galactic-to-equatorial
+        ### also inspired from this https://healpy.readthedocs.io/en/latest/tutorial.html
+        ### get the pixel indices
+        npix = hp.nside2npix(self.super_pixel_nside)
+        pixel_array = np.array(range(npix))
+        ### get the lat long coordinates to then mask over them    
+        ls, bs=hp.pixelfunc.pix2ang(nside=self.super_pixel_nside, ipix=pixel_array, nest=nested, lonlat=True)
+        #### converting galactic coordinates to equatorial coordinates
+        ra = np.zeros(npix)
+        dec = np.zeros(npix)
+        for index in range(npix):
+            l = ls[index]
+            b = bs[index]
+            galactic = ephem.Galactic(l/180.0*np.pi,b/180.0*np.pi)
+            equatorial = ephem.Equatorial(galactic, epoch=ephem.J2000)
+            ra[index]=equatorial.ra/np.pi*180.0
+            dec[index]=equatorial.dec/np.pi*180.0
+            #print('%.13f %.13f' % (equatorial.ra/np.pi*180.0, equatorial.dec/np.pi*180.0))
+        return dec
+
+
+    def plot_healpix_mollview(self,data,pixel_index_array,total_sky_pixels,title,min=None,max=None,nest=True,unit=None,
+                             declination_mask=False):
         plot_array = np.zeros(total_sky_pixels)
-        plot_array[pixel_index_array]=data
+
+        if declination_mask ==True:
+            dec = self.create_declination_mask()
+            data_masked = copy.deepcopy(data)
+            data_masked[dec<-30]=hp.UNSEEN
+            plot_array[pixel_index_array]=data_masked
+
+        else:
+            plot_array[pixel_index_array]=data
         hp.mollview(plot_array,title=title,nest=nest,min=min,max=max,unit=unit)
+
 
 
     def plot_healpix_gnomview(self,data,pixel_index_array,total_sky_pixels,title,min=None,max=None,nest=True,rot=(0,20),pixels=500,unit=None):
         plot_array = np.zeros(total_sky_pixels)
         plot_array[pixel_index_array]=data
         hp.gnomview(plot_array,title=title,nest=nest,min=min,max=max,rot=rot,xsize=pixels,unit=unit)
+
+
     ################################
     #### Planck functions
     ################################
@@ -70,12 +109,12 @@ class SkyPlots(sky_analysis.SkyAnalysis):
                 ###Plotting the positions of the 0s
                 #hp.mollview(self.planck[freq_index]<0, title="Planck dust emission "+str(self.freq_array[freq_index])+"GHz", nest=True, max= 1)
                 
-                hp.mollview(self.planck[freq_index], title="Dust emission at "+freq_str+"GHz", nest=True,min=min, max= max, unit='MJySr-1',xsize=1000)
+                hp.mollview(self.planck[freq_index], title="Dust emission at "+freq_str+"GHz", nest=True,min=min, max= max, unit='MJy/Sr',xsize=1000)
                 plt.savefig(DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION+"/planck_"+freq_str+".pdf",dpi=400)
                 plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/planck_"+\
                         freq_str+".jpg",dpi=400)
             else:
-                hp.gnomview(self.planck[freq_index], title="Dust emission at "+freq_str+"GHz", nest=True, min=min, max= max,rot=self.rot,xsize=self.xsize, unit='MJySr-1')
+                hp.gnomview(self.planck[freq_index], title="Dust emission at "+freq_str+"GHz", nest=True, min=min, max= max,rot=self.rot,xsize=self.xsize, unit='MJy/Sr')
                 plt.savefig(DUST_3D_TEMPERATURE_MAP_PLOTS_LOCATION+"/planck_zoom_"+str(self.xsize)+"_"+freq_str+".jpg")
                 plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/planck_zoom_"+str(self.xsize)+"_"+freq_str+".jpg")
                 plt.savefig(self.optimizer_plots_folder+"/planck_zoom_"+str(self.xsize)+"_"+freq_str+".jpg")
@@ -85,16 +124,16 @@ class SkyPlots(sky_analysis.SkyAnalysis):
         for freq_index in range(self.nfreq):
             freq_str = str(int(self.freq_array[freq_index]))
 
-            hp.mollview(self.planck_smooth[freq_index], title="Smoothed Planck dust emission at "+freq_str+"GHz", nest=True,min=0, max=15., unit='MJySr-1')
+            hp.mollview(self.planck_smooth[freq_index], title="Smoothed Planck dust emission at "+freq_str+"GHz", nest=True,min=0, max=15., unit='MJy/Sr')
             filename="planck_"+freq_str+"_smooth_"+str(int(self.full_maps_nside))+".jpg"
             plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/"+filename)
             plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/"+filename)
-            hp.gnomview(self.planck[freq_index], title="Planck dust emission at "+freq_str+"GHz", nest=True, min=0,max= 15.,rot=self.rot,xsize=self.xsize, unit='MJySr-1')
+            hp.gnomview(self.planck[freq_index], title="Planck dust emission at "+freq_str+"GHz", nest=True, min=0,max= 15.,rot=self.rot,xsize=self.xsize, unit='MJy/Sr')
             zoom_original_filename ="planck_zoom_"+str(self.xsize)+"_"+freq_str+"_"+str(int(self.full_maps_nside))+".jpg"
             plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/"+zoom_original_filename)
             plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/"+zoom_original_filename)
             plt.savefig(self.optimizer_plots_folder+"/"+zoom_original_filename)
-            hp.gnomview(self.planck_smooth[freq_index], title="Smoothed Planck dust emission at "+freq_str+"GHz", nest=True, min=0,max=15.,rot=self.rot,xsize=self.xsize, unit='MJySr-1')
+            hp.gnomview(self.planck_smooth[freq_index], title="Smoothed Planck dust emission at "+freq_str+"GHz", nest=True, min=0,max=15.,rot=self.rot,xsize=self.xsize, unit='MJy/Sr')
             zoom_filename="planck_zoom_"+str(self.xsize)+"_"+freq_str+"_smooth_"+str(int(self.full_maps_nside))+".jpg"
             plt.savefig(DUST_3D_TEMPERATURE_MAP_CODE_LOCATION+"/../presentation/"+zoom_filename)
             plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/"+zoom_filename)
@@ -206,11 +245,17 @@ class SkyPlots(sky_analysis.SkyAnalysis):
         ## case for rho only varying in each superpixel, or fixed across the sky
         else:                          
             self.plot_healpix_mollview(rhos,super_pixels_index_array,self.nr_of_super_pixels,\
-                                      title=r"$\rho$",max=2E-4)
+                                      title=r"$\rho$",max=3E-4,declination_mask=True)
             plt.savefig(self.optimizer_plots_folder+"/rho.jpg")
+            plt.savefig(self.optimizer_plots_folder+"/rho.pdf",dpi=400)
+            self.plot_healpix_mollview(np.log10(rhos),super_pixels_index_array,self.nr_of_super_pixels,\
+                              title=r"$\log_{10}\rho$",declination_mask=True)
+            plt.savefig(self.optimizer_plots_folder+"/rho_log_10.pdf",dpi=400)
+
             self.plot_healpix_gnomview(rhos,super_pixels_index_array,self.nr_of_super_pixels,\
                                       title=r"$\rho$",max=2E-4,rot=self.rot,pixels=self.xsize)
             plt.savefig(self.optimizer_plots_folder+"/rho_zoom.jpg")
+            plt.close()
         ##### Plotting the betas
         ## case for beta varying in each voxel
         if self.fixed_beta_along_sightline == False:
@@ -227,8 +272,9 @@ class SkyPlots(sky_analysis.SkyAnalysis):
         ## case for beta only varying in each superpixel, or fixed across the sky
         else:
             self.plot_healpix_mollview(betas,super_pixels_index_array,self.nr_of_super_pixels,\
-                                       title=r"$\beta$",max=2.5)
+                                       title=r"$\beta$",max=2.5,declination_mask=True)
             plt.savefig(self.optimizer_plots_folder+"/beta.jpg")
+            plt.savefig(self.optimizer_plots_folder+"/beta.pdf",dpi=400)
             self.plot_healpix_gnomview(betas,super_pixels_index_array,self.nr_of_super_pixels,\
                                        title=r"$\beta$",max=2.5,rot=self.rot,pixels=self.xsize)
             plt.savefig(self.optimizer_plots_folder+"/beta_zoom.jpg")
@@ -238,8 +284,9 @@ class SkyPlots(sky_analysis.SkyAnalysis):
             for ds_index in range(self.model_nslices):
                 self.plot_healpix_mollview(Ts[:,ds_index],super_pixels_index_array,self.nr_of_super_pixels,\
                                       title=r"$T$ at distance slice "+str(ds_index) +\
-                                      " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",min=10,max=25, unit='K')
+                                      " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",min=10,max=25, unit='K',declination_mask=True)
                 plt.savefig(self.optimizer_plots_folder+"/T_at_distance_slice_"+str(ds_index)+".jpg")
+                plt.savefig(self.optimizer_plots_folder+"/T_at_distance_slice_"+str(ds_index)+".pdf",dpi=400)
                 self.plot_healpix_gnomview(Ts[:,ds_index],super_pixels_index_array,self.nr_of_super_pixels,\
                                       title=r"$T$ at distance slice "+str(ds_index) +\
                                       " at "+'{:.2f}'.format(self.model_dist_slices[ds_index])+" kpc",min=10,max=25,rot=self.rot,pixels=self.xsize,unit='K')
@@ -248,7 +295,7 @@ class SkyPlots(sky_analysis.SkyAnalysis):
         ## case for T only varying in each superpixel
         else:
             self.plot_healpix_mollview(Ts,super_pixels_index_array,self.nr_of_super_pixels,\
-                                      title=r"$T$",max=50,unit='K')
+                                      title=r"$T$",max=50,unit='K',declination_mask=True)
             plt.savefig(self.optimizer_plots_folder+"/T.jpg")
             self.plot_healpix_gnomview(Ts,super_pixels_index_array,self.nr_of_super_pixels,\
                                       title=r"$T$",max=50,rot=self.rot,pixels=self.xsize,unit='K')
@@ -263,14 +310,14 @@ class SkyPlots(sky_analysis.SkyAnalysis):
             title = "Total Reconstructed Emission at "+ freq_str+" GHz"
             print("Title is",title)
             self.plot_healpix_mollview(total_emission_array[:,freq_index],full_resolution_pixel_index_array,\
-                                    self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,unit='MJySr-1')
+                                    self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,unit='MJy/Sr')
             plt.savefig(self.optimizer_plots_folder+"/total_reconstructed_emission_"+freq_str+".jpg")
             plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/total_reconstructed_emission_"+\
                         freq_str+".jpg")
             plt.savefig(self.optimizer_plots_folder+"/total_reconstructed_emission_"+\
                         freq_str+".pdf")
             self.plot_healpix_gnomview(total_emission_array[:,freq_index],full_resolution_pixel_index_array,\
-                                    self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,rot=self.rot,pixels=self.xsize,unit='MJySr-1')
+                                    self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,rot=self.rot,pixels=self.xsize,unit='MJy/Sr')
             filename="planck_zoom_"+str(self.xsize)+"_"+freq_str+"_smooth_reconstructed_total_emission_"+str(int(self.full_maps_nside))+".jpg"
             plt.savefig(self.optimizer_plots_folder+"/"+filename)
             plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/"+filename)
@@ -285,13 +332,13 @@ class SkyPlots(sky_analysis.SkyAnalysis):
             title = "Total Difference Emission at "+ freq_str+" GHz"
             print("Title is",title)
             self.plot_healpix_mollview(total_difference_array[:,freq_index],full_resolution_pixel_index_array,\
-                                    self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,unit='MJySr-1')
+                                    self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,unit='MJy/Sr')
             full_sky_name  = "total_difference_emission_"+freq_str+".jpg"
             plt.savefig(self.optimizer_plots_folder+"/"+full_sky_name)
             plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/"+full_sky_name)
             plt.savefig(self.optimizer_plots_folder+"/"+full_sky_name)
             self.plot_healpix_gnomview(total_difference_array[:,freq_index],full_resolution_pixel_index_array,\
-                                    self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,rot=self.rot,pixels=self.xsize,unit='MJySr-1')
+                                    self.nr_of_super_pixels*self.super_pixel_size,title=title,min=0,max=15,rot=self.rot,pixels=self.xsize,unit='MJy/Sr')
             filename="planck_zoom_"+str(self.xsize)+"_"+freq_str+"_smooth_total_difference_emission_"+str(int(self.full_maps_nside))+".jpg"
             plt.savefig(self.optimizer_plots_folder+"/"+filename)
             plt.savefig(self.optimizer_plots_folder+"/"+freq_str+"/"+filename)
@@ -312,13 +359,14 @@ if __name__ == "__main__":
 
     p.set_up_analysis()
     p.load_data()
-    p.run_optimizer()
+    #p.run_optimizer()
     data_dict = p.load_optimizer_sky_data()
     #print()
     print("I am plotting the optimizer plots now")
-    p.plot_smooth_dEBV()
-    p.plot_final_optimized_functions(data_dict)
-    p.plot_optimizer_sky_parameters(data_dict)
+    #p.plot_smooth_dEBV()
+    #p.plot_final_optimized_functions(data_dict)
+    p.plot_planck()
+    #p.plot_optimizer_sky_parameters(data_dict)
     #p.plot_reconstructed_total_emission(data_dict)
     #p.plot_total_difference_emission(data_dict)
 
