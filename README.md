@@ -47,7 +47,6 @@ Activate the new environment:
 Install the required packages in your Conda environment:
 
 `conda install -c anaconda configparser` 
-
 `conda install -c conda-forge healpy h5py scipy pandas ptemcee`
 
 You may still need to install the `str2bool` package with pip using
@@ -80,10 +79,6 @@ Explain how to set the variables
 Note to David:
 Don't read below here.
 The code that downloads the data 
-
-# Configuration
-Rename the template file general_settings_template.json to general_settings.json 
-In the file, replace the default values for the data, plots, code, paper location with the desired system paths.
 
 
 # Data
