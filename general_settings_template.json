@@ -1,0 +1,7 @@
+{
+    "DataLocation": "/path/to/data",
+    "CodeLocation": "/path/to/code",
+    "PlotsLocation": "/path/to/plots",
+    "PaperLocation": "/path/to/paper"
+  }
+  
