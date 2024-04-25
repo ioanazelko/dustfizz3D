@@ -15,7 +15,7 @@ from general_settings import Settings
 settings = Settings()
 DATA_LOCATION = settings.data_location
 PLOTS_LOCATION = settings.plots_location
-CONFIGURATIONS_LOCATION = settings.code_location
+CONFIGURATIONS_LOCATION = settings.configurations_location
 
 
 import data_processing
@@ -33,14 +33,24 @@ class SkyAnalysis():
         if run_type == "sampler":
             self.sampler_run_name=run_name
             sampler_parser = ConfigParser()
-            sampler_parser.read(CONFIGURATIONS_LOCATION+"/sampler/"+self.sampler_run_name+".cfg")
+            sampler_config_location = CONFIGURATIONS_LOCATION+"/sampler/"+self.sampler_run_name+".cfg"
+            ### Check that the file exists
+            if not os.path.exists(sampler_config_location):
+                raise FileNotFoundError(f"No configuration file found for sampler at {sampler_config_location}")
+            sampler_parser.read(sampler_config_location)
             self.sampler_parser = sampler_parser
             self.optimizer_run_name=self.sampler_parser.get('Sampler_configuration','optimizer_run_name')
         elif run_type == "optimizer":
             self.optimizer_run_name=run_name
 
         optimizer_parser = ConfigParser()
-        optimizer_parser.read(CONFIGURATIONS_LOCATION+"/optimizer/"+self.optimizer_run_name+".cfg")
+        optimizer_config_location = CONFIGURATIONS_LOCATION+"/optimizer/"+self.optimizer_run_name+".cfg"
+        ### Check that the file exists
+        if not os.path.exists(optimizer_config_location):
+            raise FileNotFoundError(f"No configuration file found for optimizer at {optimizer_config_location}")
+        
+        print(optimizer_config_location)
+        optimizer_parser.read(optimizer_config_location)
         
         self.optimizer_parser = optimizer_parser
         self.set_analysis_parameters()
@@ -89,33 +99,31 @@ class SkyAnalysis():
         self.nfreq = len(self.freq_array)
         self.get_the_sigma_for_each_frequency_band()
         ######### Data structure
+
+        import os
+
         ## Make the folders
-        self.optimizer_plots_folder = PLOTS_LOCATION+"/optimizer/"+self.optimizer_run_name
-        if os.path.isdir(self.optimizer_plots_folder):
-            pass
-        else:
-            os.mkdir(self.optimizer_plots_folder)
-            for i in range(self.nfreq):
-                os.mkdir(self.optimizer_plots_folder+"/"+str(int(self.freq_array[i])))
-        self.optimizer_data_folder = DATA_LOCATION+"/3D_dust_temperature/optimizer_fits/"+self.optimizer_run_name
-        
-        if os.path.isdir(self.optimizer_data_folder):
-            pass
-        else:
-            os.mkdir(self.optimizer_data_folder)
+        self.optimizer_plots_folder = PLOTS_LOCATION+"/3D_dust_temperature_map_plots/optimizer/"+self.optimizer_run_name
+        # Create all intermediate directories if they don't exist
+        os.makedirs(self.optimizer_plots_folder, exist_ok=True)
+
+        # Create frequency subdirectories
+        for i in range(self.nfreq):
+            os.makedirs(os.path.join(self.optimizer_plots_folder, str(int(self.freq_array[i]))), exist_ok=True)
+
+        self.optimizer_data_folder = DATA_LOCATION + "/3D_dust_temperature/optimizer_fits/" + self.optimizer_run_name
+        # Create all intermediate directories if they don't exist
+        os.makedirs(self.optimizer_data_folder, exist_ok=True)
 
         if self.run_type == "sampler":
-            self.sampler_plots_folder = PLOTS_LOCATION+"/sampler/"+self.sampler_run_name
-            if os.path.isdir(self.sampler_plots_folder):
-                pass
-            else:
-                os.mkdir(self.sampler_plots_folder)
+            self.sampler_plots_folder = os.path.join(PLOTS_LOCATION, "3D_dust_temperature_map_plots", "sampler", self.sampler_run_name)
+            # Create all intermediate directories if they don't exist
+            os.makedirs(self.sampler_plots_folder, exist_ok=True)
 
-            self.sampler_data_folder =  DATA_LOCATION+"/3D_dust_temperature/sampler/"+self.sampler_run_name
-            if os.path.isdir(self.sampler_data_folder):
-                pass
-            else:
-                os.mkdir(self.sampler_data_folder)   
+            self.sampler_data_folder = os.path.join(DATA_LOCATION, "3D_dust_temperature", "sampler", self.sampler_run_name)
+            # Create all intermediate directories if they don't exist
+            os.makedirs(self.sampler_data_folder, exist_ok=True)
+
 
         ######### Make dictionary
         self.analysis_configuration_dictionary = {'full_maps_nside':self.full_maps_nside,'super_pixel_nside':self.super_pixel_nside,
@@ -605,13 +613,14 @@ class SkyAnalysis():
 
 def test_sky_analysis(run_type="optimizer"):
     start_time = time.time()
-    p = SkyAnalysis("test_run",run_type=run_type)
+    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type=run_type)
+    #p = SkyAnalysis("test_run",run_type=run_type)
     p.set_up_analysis()
     #p.load_data()
     #p.run_optimizer()
     #p.run_sampler()
+    print("Test succseful completed in:")
     time_string = utils.end_time(start_time)
-
 
 
 test_sky_analysis(run_type="optimizer")

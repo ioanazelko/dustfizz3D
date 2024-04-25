@@ -10,6 +10,7 @@ We start from 3D dust reddening map. We can use different versions of maps avail
 This project requires the following Python packages beyond the standard library:
 
 - `configparser`
+- `corner`
 - `datetime`
 - `healpy`
 - `h5py`
@@ -47,7 +48,8 @@ Activate the new environment:
 Install the required packages in your Conda environment:
 
 `conda install -c anaconda configparser` 
-`conda install -c conda-forge healpy h5py scipy pandas ptemcee`
+
+`conda install -c conda-forge corner healpy h5py scipy pandas ptemcee`
 
 You may still need to install the `str2bool` package with pip using
 `pip install str2bool`
@@ -64,21 +66,25 @@ Now, you are ready to use the project with all dependencies set up correctly.
 ### Setting up the location settings
 Copy the file `general_settings_template.json` and rename it to `general_settings.json`.
 Edit the file with the corresponding directory paths for where you would like data, plots, code and paper files to be stored.
+
+
+### Testing the installation
+
+Please run the script 
+`sky_analysis.py`
+
+
+Note to David:
+Don't read below here.
+
+-------------------------------
+
 ## Recreating the analysis of Zelko et al. 2022
 
 Zelko et al. 2022: https://arxiv.org/abs/2211.07667
 
 See master_script.py
 
-Explain how to set the variables
- and locations
-
-
--------------------------------
-
-Note to David:
-Don't read below here.
-The code that downloads the data 
 
 
 # Data

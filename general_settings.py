@@ -45,7 +45,7 @@ class Settings:
         return self.data.get('PaperLocation', 'default/path/to/paper')
     @property
     def configurations_location(self):
-        return self.data.get('ConfigurationsLocation', os.path.join(os.path.dirname(__file__), 'cofigurations'))
+        return self.data.get('ConfigurationsLocation', os.path.join(os.path.dirname(__file__), 'configurations'))
 
 ###
 # Usage in any module
