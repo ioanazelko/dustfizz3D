@@ -1,6 +1,7 @@
 # 3D_dust_temperature_map
 
-Code for creating the 3D  interstellar medium dust temperature map 
+Code for creating the 3D  interstellar medium dust temperature map from Zelko et al. 2022: https://arxiv.org/abs/2211.07667
+
 
 We start from 3D dust reddening map. We can use different versions of maps available in the research community. For now, we have used the Green et al. 2019 version, and others will be added in the future.
 
@@ -81,7 +82,6 @@ Don't read below here.
 
 ## Recreating the analysis of Zelko et al. 2022
 
-Zelko et al. 2022: https://arxiv.org/abs/2211.07667
 
 See master_script.py
 
