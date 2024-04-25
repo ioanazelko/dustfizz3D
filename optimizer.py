@@ -12,10 +12,6 @@ import numpy as np
 from scipy.optimize import  minimize ### To be used for the optimizer
 import time                          ### To keep track of the program run time
 
-DUST_3D_TEMPERATURE_MAP_DATA_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_DATA_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_CODE_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_CODE_LOCATION"]
-DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION = os.environ["DUST_3D_TEMPERATURE_MAP_PAPER_LOCATION"]
-sys.path.insert(0, DUST_3D_TEMPERATURE_MAP_CODE_LOCATION)
 
 import model
 import utils

@@ -37,6 +37,7 @@ First, if you do not have Conda installed, download and install it from Minicond
 
 `conda create -n myenv python=3.x
 
+(replace x wtih the latest python version or the one desired)
 Activate the new environment:
 
 `conda activate myenv`
@@ -46,6 +47,7 @@ Activate the new environment:
 Install the required packages in your Conda environment:
 
 `conda install -c anaconda configparser` 
+
 `conda install -c conda-forge healpy h5py scipy pandas ptemcee`
 
 You may still need to install the `str2bool` package with pip using
@@ -59,6 +61,10 @@ To verify that all packages are installed correctly, you can list all packages i
 `conda list`
 
 Now, you are ready to use the project with all dependencies set up correctly.
+
+### Setting up the location settings
+Copy the file `general_settings_template.json` and rename it to `general_settings.json`.
+Edit the file with the corresponding directory paths for where you would like data, plots, code and paper files to be stored.
 ## Recreating the analysis of Zelko et al. 2022
 
 Zelko et al. 2022: https://arxiv.org/abs/2211.07667

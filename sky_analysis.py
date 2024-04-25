@@ -603,54 +603,68 @@ class SkyAnalysis():
 
 
 
-if __name__ == "__main__":
+def test_sky_analysis(run_type="optimizer"):
     start_time = time.time()
-    #plot_the_paper_plots()
-    #make_the_analysis()
-#    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="optimizer")
-    #p = SkyAnalysis("tiny_cepheus_beta_fixed",run_type="sampler")  
-    #run_list=["tiny_cepheus_beta_fixed2","tiny_cepheus_beta_variable2",
-    #        "tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ]  
-    #run_list=["tiny_cepheus_beta_fixed2","tiny_cepheus_beta_variable2",
-            #"tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ] 
-    #run_list=["tiny_cepheus_beta_fixed2"]
-    #run_list = ["tiny_cepheus_beta_varying2"]
-    #run_list= ["tiny_cepheus_beta_fixed2_nside64"]
-    #run_list=["tiny_cepheus_beta_fixed2_nside32" ]   
-    #run_list= ["tiny_cepheus_beta_fixed_nside64"]
-    #run_list=["tiny_cepheus_beta_fixed_nside32" ] 
-    #run_list = ["tiny_cepheus_beta_varying_nside64"]
-    #run_list = ["tiny_cepheus_beta_varying_nside32"]
+    p = SkyAnalysis("test_run",run_type=run_type)
+    p.set_up_analysis()
+    #p.load_data()
+    #p.run_optimizer()
+    #p.run_sampler()
+    time_string = utils.end_time(start_time)
 
-    #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside128"]
-    #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside64"]
-    #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside32"]
 
-    run_list = ["tiny_cepheus_beta_varying_nside32"]
-    for run in run_list:
-        print("Doing run ", run)
-        p = SkyAnalysis(run,run_type="optimizer") 
-        p.set_up_analysis()
-        # p.load_data()
-        #p = SkyAnalysis(run,run_type="sampler") 
-        #p.set_up_analysis()
-        #p.load_data()
-        #p.run_optimizer()
-        #p.run_sampler()
-        time_string = utils.end_time(start_time)    
+
+test_sky_analysis(run_type="optimizer")
+
+
+# if __name__ == "__main__":
+#     start_time = time.time()
+#     #plot_the_paper_plots()
+#     #make_the_analysis()
+# #    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type="optimizer")
+#     #p = SkyAnalysis("tiny_cepheus_beta_fixed",run_type="sampler")  
+#     #run_list=["tiny_cepheus_beta_fixed2","tiny_cepheus_beta_variable2",
+#     #        "tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ]  
+#     #run_list=["tiny_cepheus_beta_fixed2","tiny_cepheus_beta_variable2",
+#             #"tiny_cepheus_beta_fixed2_nside64","tiny_cepheus_beta_fixed2_nside32" ] 
+#     #run_list=["tiny_cepheus_beta_fixed2"]
+#     #run_list = ["tiny_cepheus_beta_varying2"]
+#     #run_list= ["tiny_cepheus_beta_fixed2_nside64"]
+#     #run_list=["tiny_cepheus_beta_fixed2_nside32" ]   
+#     #run_list= ["tiny_cepheus_beta_fixed_nside64"]
+#     #run_list=["tiny_cepheus_beta_fixed_nside32" ] 
+#     #run_list = ["tiny_cepheus_beta_varying_nside64"]
+#     #run_list = ["tiny_cepheus_beta_varying_nside32"]
+
+#     #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside128"]
+#     #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside64"]
+#     #run_list = ["lower_right_tiny_cepheus_beta_fixed_nside32"]
+
+#     run_list = ["tiny_cepheus_beta_varying_nside32"]
+#     for run in run_list:
+#         print("Doing run ", run)
+#         p = SkyAnalysis(run,run_type="optimizer") 
+#         p.set_up_analysis()
+#         # p.load_data()
+#         #p = SkyAnalysis(run,run_type="sampler") 
+#         #p.set_up_analysis()
+#         #p.load_data()
+#         #p.run_optimizer()
+#         #p.run_sampler()
+#         time_string = utils.end_time(start_time)    
 
     
-    #p = SkyAnalysis("tiny_cepheus_beta_fixed_offsets_on",run_type="sampler")        
-    #p = SkyAnalysis("test_bayestar2019",run_type="optimizer")        
-    #p = SkyAnalysis("powell_nside_128_priors_T_unfixed")        
-    #p = SkyAnalysis("powell_nside_64_priors_T_unfixed")    
-    #p = SkyAnalysis("powell_nside_32_priors_T_unfixed")
-    #p = SkyAnalysis("powell_nside_32_no_priors")
-    # p.set_up_analysis()
-    # p.load_data()
-    # p.run_optimizer()
-    # p.run_sampler()
-    # time_string = utils.end_time(start_time)
+#     #p = SkyAnalysis("tiny_cepheus_beta_fixed_offsets_on",run_type="sampler")        
+#     #p = SkyAnalysis("test_bayestar2019",run_type="optimizer")        
+#     #p = SkyAnalysis("powell_nside_128_priors_T_unfixed")        
+#     #p = SkyAnalysis("powell_nside_64_priors_T_unfixed")    
+#     #p = SkyAnalysis("powell_nside_32_priors_T_unfixed")
+#     #p = SkyAnalysis("powell_nside_32_no_priors")
+#     # p.set_up_analysis()
+#     # p.load_data()
+#     # p.run_optimizer()
+#     # p.run_sampler()
+#     # time_string = utils.end_time(start_time)
 
 
 
