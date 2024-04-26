@@ -7,7 +7,6 @@ import h5py
 import matplotlib.pyplot as plt
 from multiprocessing import Process, Manager  ### To run the processes in parallel on multiple corres
 import numpy as np
-import str2bool                      ### For converting the read value from the configuration parser from string to bool
 import time
 
 
@@ -86,7 +85,7 @@ class SkyAnalysis():
         self.rot = zoom_in_dict['rot']
         self.xsize= zoom_in_dict['xsize']
         ######### EBV map parameters
-        self.use_smooth_EBV = str2bool.str2bool(self.optimizer_parser.get('Analysis_configuration','use_smooth_EBV'))
+        self.use_smooth_EBV = self.optimizer_parser.getboolean('Analysis_configuration','use_smooth_EBV')
         self.first_distance_slice=int(self.optimizer_parser.get('Analysis_configuration','first_distance_slice'))### Not doing the first couple of distance slices because there might no be enough dust in them; but I should still try for curiousity to see how much is in them
         self.last_distance_slice=int(self.optimizer_parser.get('Analysis_configuration','last_distance_slice')) ## not sure why Albert was not using 31
         self.distance_slice_step=int(self.optimizer_parser.get('Analysis_configuration','distance_slice_step')) ### taking every other second distance slice to save time for now
@@ -94,7 +93,7 @@ class SkyAnalysis():
 
 
         ######### Emission map parameters
-        self.use_smooth_planck = str2bool.str2bool(self.optimizer_parser.get('Analysis_configuration','use_smooth_planck'))
+        self.use_smooth_planck = self.optimizer_parser.getboolean('Analysis_configuration','use_smooth_planck')
         self.freq_array =utils.dust_temperature_map_frequency_array() #GHz
         self.nfreq = len(self.freq_array)
         self.get_the_sigma_for_each_frequency_band()
@@ -141,19 +140,19 @@ class SkyAnalysis():
         self.nruns= int(self.sampler_parser.get('Sampler_configuration','nruns'))
         self.nthreads = int(self.sampler_parser.get('Sampler_configuration','nthreads'))
         self.thinning = int(self.sampler_parser.get('Sampler_configuration','thinning'))
-        self.use_priors_in_sampler = str2bool.str2bool(self.sampler_parser.get('Sampler_configuration','use_priors_in_sampler'))
+        self.use_priors_in_sampler = self.sampler_parser.getboolean('Sampler_configuration','use_priors_in_sampler')
         self.sampler_configuration_parameters = {"nwalkers":self.nwalkers,"ntemps":self.ntemps,"nruns":self.nruns,
                                                 "nthreads":self.nthreads, "thinning":self.thinning,
                                                 'use_priors_in_sampler':self.use_priors_in_sampler}
 
     def model_options(self):
-        self.fit_for_the_offsets = str2bool.str2bool(self.optimizer_parser.get('Model_configuration','fit_for_the_offsets'))
-        self.fit_for_the_rhos = str2bool.str2bool(self.optimizer_parser.get('Model_configuration','fit_for_the_rhos'))
-        self.fit_for_the_betas = str2bool.str2bool(self.optimizer_parser.get('Model_configuration','fit_for_the_betas'))
-        self.fit_for_the_Ts = str2bool.str2bool(self.optimizer_parser.get('Model_configuration','fit_for_the_Ts'))
-        self.fixed_rho_along_sightline = str2bool.str2bool(self.optimizer_parser.get('Model_configuration','fixed_rho_along_sightline'))
-        self.fixed_beta_along_sightline = str2bool.str2bool(self.optimizer_parser.get('Model_configuration','fixed_beta_along_sightline'))
-        self.fixed_T_along_sightline = str2bool.str2bool(self.optimizer_parser.get('Model_configuration','fixed_T_along_sightline'))
+        self.fit_for_the_offsets = self.optimizer_parser.getboolean('Model_configuration','fit_for_the_offsets')
+        self.fit_for_the_rhos = self.optimizer_parser.getboolean('Model_configuration','fit_for_the_rhos')
+        self.fit_for_the_betas = self.optimizer_parser.getboolean('Model_configuration','fit_for_the_betas')
+        self.fit_for_the_Ts = self.optimizer_parser.getboolean('Model_configuration','fit_for_the_Ts')
+        self.fixed_rho_along_sightline = self.optimizer_parser.getboolean('Model_configuration','fixed_rho_along_sightline')
+        self.fixed_beta_along_sightline = self.optimizer_parser.getboolean('Model_configuration','fixed_beta_along_sightline')
+        self.fixed_T_along_sightline = self.optimizer_parser.getboolean('Model_configuration','fixed_T_along_sightline')
         self.fixed_offset_array = np.zeros(self.nfreq)
         self.model_configuration_dictionary = {"super_pixel_size":self.super_pixel_size,
                                                "model_nslices":self.model_nslices,
@@ -182,11 +181,11 @@ class SkyAnalysis():
             use_bounds = False
         else:
             use_bounds = True
-        scale_variables = str2bool.str2bool(self.optimizer_parser.get('Optimizer_configuration','scale_variables'))
-        use_gradient = str2bool.str2bool(self.optimizer_parser.get('Optimizer_configuration','use_gradient'))
-        use_hessian = str2bool.str2bool(self.optimizer_parser.get('Optimizer_configuration','use_hessian'))
-        use_priors = str2bool.str2bool(self.optimizer_parser.get('Optimizer_configuration','use_priors'))
-        print_output = str2bool.str2bool(self.optimizer_parser.get('Optimizer_configuration','print_output'))
+        scale_variables = self.optimizer_parser.getboolean('Optimizer_configuration','scale_variables')
+        use_gradient = self.optimizer_parser.getboolean('Optimizer_configuration','use_gradient')
+        use_hessian = self.optimizer_parser.getboolean('Optimizer_configuration','use_hessian')
+        use_priors = self.optimizer_parser.getboolean('Optimizer_configuration','use_priors')
+        print_output = self.optimizer_parser.getboolean('Optimizer_configuration','print_output')
         self.optimizer_configuration_parameters = {"optimizer_method":optimizer_method,
                                                    "scale_variables":scale_variables,
                                                    "use_bounds":use_bounds,
@@ -674,7 +673,3 @@ test_sky_analysis(run_type="optimizer")
 #     # p.run_optimizer()
 #     # p.run_sampler()
 #     # time_string = utils.end_time(start_time)
-
-
-
-   

@@ -21,7 +21,6 @@ from matplotlib.collections import LineCollection  # For plotting
 import numpy as np
 import pandas as pd                  ### To use for data processing
 import ptemcee                       ### To use parallel tempering mcmc
-import str2bool                      ### For converting the read value from the configuration parser from string to bool
 import subprocess                    ### To be able to read the git HASH
 import time                          ### To keep track of the program run time
 
