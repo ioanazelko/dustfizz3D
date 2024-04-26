@@ -10,22 +10,19 @@ We start from 3D dust reddening map. We can use different versions of maps avail
 
 This project requires the following Python packages beyond the standard library:
 
-- `configparser`
 - `corner`
-- `datetime`
-- `dustmaps`
 - `healpy`
 - `h5py`
-- `scipy.optimize`
+- `scipy`
 - `pandas`
 - `ptemcee`
-- `str2bool`
+- `dustmaps`
 
 ### Installing the Requirements
 
 You can install all required packages using `pip`. Run the following command in your terminal:
 
-`pip install configparser corner datetime dustmaps healpy h5py  pandas ptemcee scipy str2bool`
+`pip install corner healpy h5py scipy pandas ptemcee dustmaps`
 
 Please ensure that you are using Python 3.x, as these packages are not compatible with Python 2.x.
 
@@ -49,9 +46,9 @@ Activate the new environment:
 
 Install the required packages in your Conda environment:
 
-`conda install -c anaconda configparser datetime` 
+`conda install -c anaconda configparser` 
 
-`conda install -c conda-forge corner dustmaps healpy h5py scipy pandas ptemcee`
+`conda install -c conda-forge corner healpy h5py scipy pandas ptemcee`
 
 You may still need to install the `str2bool` package with pip using
 `pip install str2bool`
