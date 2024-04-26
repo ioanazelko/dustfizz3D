@@ -1,6 +1,5 @@
 import os
 
-from dustmaps.bayestar import BayestarQuery
 import h5py
 import healpy as hp
 import numpy as np

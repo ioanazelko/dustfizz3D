@@ -23,7 +23,8 @@ def load_bayestar_2019():
     filename =DATA_LOCATION +"/dust_maps/ioana/bayestar2019.hdf5"
     with h5py.File(filename, "r") as g: 
         bayestar_3D_map=g["EBV"][()]
-    print("Loading bayestar 2019 done")
+        print("The type of the data was:",g["EBV"].dtype)
+    print("Loading bayestar 2019 done.")
     return bayestar_3D_map.T
 
 #### Distance Functions

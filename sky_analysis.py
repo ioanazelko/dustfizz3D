@@ -616,10 +616,10 @@ def test_sky_analysis(run_type="optimizer"):
     p = SkyAnalysis("tiny_cepheus_beta_varying",run_type=run_type)
     #p = SkyAnalysis("test_run",run_type=run_type)
     p.set_up_analysis()
-    #p.load_data()
+    p.load_data()
     #p.run_optimizer()
     #p.run_sampler()
-    print("Test succseful completed in:")
+    print("Test succsefully completed in:")
     time_string = utils.end_time(start_time)
 
 
