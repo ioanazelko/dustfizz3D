@@ -1,11 +1,17 @@
 # 3D_dust_temperature_map
 
+
 Code for creating the 3D  interstellar medium dust temperature map from Zelko et al. 2022: https://arxiv.org/abs/2211.07667
 
 
 We start from 3D dust reddening map. We can use different versions of maps available in the research community. For now, we have used the Green et al. 2019 version, and others will be added in the future.
 
+## Introduction to git and GitHub
 
+If this is your first time using git and GitHub, please:
+- [ ] read the Chapter 1 this free online book https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
+- [ ] Follow the instructions here to clone this repository https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
+- [ ] To make changes to the repository later on, read Chapters 2 and 3, and other chapters of interest
 ## Installation Requirements
 
 This project requires the following Python packages beyond the standard library:
@@ -18,19 +24,28 @@ This project requires the following Python packages beyond the standard library:
 - `ptemcee`
 - `dustmaps`
 
-### Installing the Requirements
-
-You can install all required packages using `pip`. Run the following command in your terminal:
-
-`pip install corner healpy h5py scipy pandas ptemcee dustmaps`
-
 Please ensure that you are using Python 3.x, as these packages are not compatible with Python 2.x.
 
-## Installation with Conda
+### Installing the Requirements
+Two popular tools for managing these dependencies are `pip` and `conda`. Understanding the differences between these tools can help you choose the right one for your needs.
+
+**pip** is the Python Packaging Authority’s recommended tool for installing packages from the Python Package Index (PyPI). It is suitable for all Python environments and is great for installing Python packages that do not require complex dependencies outside the Python ecosystem.
+
+**conda**, on the other hand, is a package manager from the Anaconda distribution. It excels in handling packages from both Python and other languages, managing complex dependencies, and creating isolated environments. Conda is particularly useful in data science and scientific computing where dependencies often include non-Python libraries.
+
+For projects that require simple Python libraries, `pip` is usually sufficient. However, for projects that involve data science and need consistent handling of diverse dependencies across platforms, `conda` may be a better choice.
+
+Conda's ability to create isolated environments can prevent conflicts between package versions and allow for more stable development platforms across different projects.
+
+While Conda has a vast repository, it doesn't cover as many packages as pip. For some less common packages, users might still need to resort to pip in addition to conda.
+
+I recommend you use conda where possible.
+
+#### Installation with Conda
 
 If you prefer to manage your Python environments and dependencies with Conda, you can follow these steps to set up your environment.
 
-### Setting Up the Conda Environment
+##### Setting Up the Conda Environment
 
 First, if you do not have Conda installed, download and install it from Miniconda or Anaconda. Then, create a new Conda environment for this project:
 
@@ -42,7 +57,7 @@ Activate the new environment:
 
 `conda activate myenv`
 
-### Installing Packages
+##### Installing Packages
 
 Install the required packages in your Conda environment:
 
@@ -50,17 +65,21 @@ Install the required packages in your Conda environment:
 
 `conda install -c conda-forge corner healpy h5py scipy pandas ptemcee`
 
-You may still need to install the `str2bool` package with pip using
-`pip install str2bool`
 Note: Some packages might not be available in the default Anaconda channel and require installation from `conda-forge` or another channel.
 
-### Verifying Installation
+##### Verifying Installation
 
 To verify that all packages are installed correctly, you can list all packages in the active Conda environment:
 
 `conda list`
 
 Now, you are ready to use the project with all dependencies set up correctly.
+
+#### Installation with pip
+You can install all required packages using `pip`. Run the following command in your terminal:
+
+`pip install corner dustmaps healpy h5py scipy pandas ptemcee`
+
 
 ### Setting up the location settings
 Copy the file `general_settings_template.json` and rename it to `general_settings.json`.
