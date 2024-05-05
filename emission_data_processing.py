@@ -39,8 +39,10 @@ def loadPlanckData(dorebin=0):
         planck = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/maps_planck2015-I_rebin-2048-256.fits', hdu=0)
         cmb = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/maps_CMB_rebin-1024-256.fits', hdu=0)
     else:
-        planck = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/maps_planck2015-I_rebin-2048-1024.fits', hdu=0)
-        cmb = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/COM_CMB_IQU-smica_1024_R2.02_full.fits', hdu=1)
+        # planck = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/maps_planck2015-I_rebin-2048-1024.fits', hdu=0)
+        # cmb = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/COM_CMB_IQU-smica_1024_R2.02_full.fits', hdu=1)
+        planck = utils.openFits(DATA_LOCATION+'/emission_maps/maps_planck2015-I_rebin-2048-1024.fits', hdu=0)
+        cmb = utils.openFits(DATA_LOCATION+'/emission_maps/COM_CMB_IQU-smica_1024_R2.02_full.fits', hdu=1)
         cmb = cmb['i_stokes']
         cmb = cmb.reshape([1,cmb.shape[0]])
 
@@ -52,7 +54,9 @@ def loadPlanckData(dorebin=0):
         i100 = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/maps_i100_rebin-256.fits')
     else:
         ### This is NSIDE 1024
-        i100 = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/maps_i100.fits')        
+        # i100 = utils.openFits(DATA_LOCATION+'/3D_dust_temperature/albert/maps_i100.fits')       
+        i100 = utils.openFits(DATA_LOCATION+'/emission_maps/maps_i100.fits')        
+ 
     planck = np.append(planck,i100.reshape([1,i100.shape[0]]),axis=0)
 
     return planck

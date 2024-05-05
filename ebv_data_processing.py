@@ -20,7 +20,7 @@ def load_bayestar_2019():
         numpy.ndarray: The loaded bayestar 2019 data with transposed axes, where the distance is the first axis and healpix is the second.
     """
     print("Loading the bayestar 2019 calculated from the medians of all the samples stored")
-    filename =DATA_LOCATION +"/dust_maps/ioana/bayestar2019.hdf5"
+    filename =DATA_LOCATION +"/dust_reddening_maps/bayestar2019.hdf5"
     with h5py.File(filename, "r") as g: 
         bayestar_3D_map=g["EBV"][()]
         print("The type of the data was:",g["EBV"].dtype)
@@ -57,7 +57,7 @@ def saving_distances():
     bayestar_version_list = ["bayestar2017","bayestar2019"]
     for bv in bayestar_version_list:
         distances = query_bayestar_distances(bv)
-        utils.saveArray(np.array(distances), filename=DATA_LOCATION+"/3D_dust_temperature/distance_slices/"+bv+"_distances")
+        utils.saveArray(np.array(distances), filename=DATA_LOCATION+"/dust_reddening_maps/distance_slices/"+bv+"_distances")
 def load_bayestar_distances(bayestar_version='bayestar2019'):
     """
     Load distances obtained from querying bayestar distances.
@@ -70,7 +70,7 @@ def load_bayestar_distances(bayestar_version='bayestar2019'):
     Returns:
         numpy.ndarray: The distances loaded from the file.
     """
-    return utils.openFits(filename=DATA_LOCATION+"/3D_dust_temperature/distance_slices/"+bayestar_version+"_distances")
+    return utils.openFits(filename=DATA_LOCATION+"/dust_reddening_maps/distance_slices/"+bayestar_version+"_distances")
 
 ##### this function may not be in use in the code anymore, it's more for archival purposes
 def loadBayestarSlices(dorebin=0):

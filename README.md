@@ -1,7 +1,7 @@
-# 3D_dust_temperature_map
+# dustfizz3D
 
 
-Code for creating the 3D  interstellar medium dust temperature map from Zelko et al. 2022: https://arxiv.org/abs/2211.07667
+Code for creating the **3D  interstellar medium dust temperature map** from Zelko et al. 2022: https://arxiv.org/abs/2211.07667
 
 
 We start from 3D dust reddening map. We can use different versions of maps available in the research community. For now, we have used the Green et al. 2019 version, and others will be added in the future.
@@ -9,9 +9,9 @@ We start from 3D dust reddening map. We can use different versions of maps avail
 ## Introduction to git and GitHub
 
 If this is your first time using git and GitHub, please:
-- [ ] read the Chapter 1 this free online book https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
+- [ ] Read the Chapter 1 this free online book https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
 - [ ] Follow the instructions here to clone this repository https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
-- [ ] To make changes to the repository later on, read Chapters 2 and 3, and other chapters of interest
+- [ ] To make changes to the repository later on, read Chapters 2 and 3, and other chapters of interest.
 ## Installation Requirements
 
 This project requires the following Python packages beyond the standard library:
@@ -41,6 +41,7 @@ While Conda has a vast repository, it doesn't cover as many packages as pip. For
 
 I recommend you use conda where possible.
 
+Note: the `dustmaps` package will prompt you to specify a configuration file upon use, to set up the path were the dust map data should be stored. Follow the instructions given in the message.
 #### Installation with Conda
 
 If you prefer to manage your Python environments and dependencies with Conda, you can follow these steps to set up your environment.
@@ -83,7 +84,14 @@ You can install all required packages using `pip`. Run the following command in 
 
 ### Setting up the location settings
 Copy the file `general_settings_template.json` and rename it to `general_settings.json`.
-Edit the file with the corresponding directory paths for where you would like data, plots, code and paper files to be stored.
+Edit the file with the corresponding directory paths for where you would like data, plots, code and paper files to be stored. Please use absolute paths, not relative paths.
+
+
+# Data
+
+
+Download the data folder from https://drive.google.com/drive/folders/13ygvizB1-OkjPhoo9zTfUvFMrOOhsr0e?usp=sharing and save it under a name of your choice.
+Set the data location in `general_settings.json` to match to the folder path you chose above.
 
 
 ### Testing the installation
@@ -104,7 +112,6 @@ See master_script.py
 
 
 
-# Data
 
 ### Dust emission data
 ##### IRAS/DIRBE 100 mum (2998) GHz data:
@@ -120,12 +127,17 @@ The exact emission map that was used, before and after smoothing, can be found a
 ### Dust reddening data
 
 
-Step 1, get the 3D reddening data, at the highest resolution.
+#### Step 1, getting 3D reddening data, at the highest resolution.
+
+The data folder already has the 3D dust reddening map used for this analysis, so you do not need to regenerate it. 
+However, if you wanted to regenerate it, you could use the code in the module:
+#### Step 2.Match the resolution of the maps
+Smooth the map to match the resolution of the planck map. In fact, I had to smooth that map as well, bringing both to 10 arcminutes.
+
+
+
 Step 2. Decide the binning for it
 In the verision from Zelko2022, nside 1024 was used, and 17 distance bins.
-
-Step 3.
-Smooth the map to match the resolution of the planck map. In fact, I had to smooth that map as well, bringing both to 10 arcminutes.
 
 
 For Step 1, the code is in:

@@ -123,7 +123,8 @@ class DataProcessing():
             hp.gnomview(nested_smooth_map, title="Smoothed Planck dust emission "+freq_str+"GHz", nest=True,min=0, max=15.,rot=self.rot,xsize=self.xsize)           
         ### Saving the smoothed maps    
         
-        filename =DATA_LOCATION +"/3D_dust_temperature/smoothed_maps/albert/smoothed_planck_"+str(int(self.planck_nside))+".hdf5"
+        #filename =DATA_LOCATION +"/3D_dust_temperature/smoothed_maps/albert/smoothed_planck_"+str(int(self.planck_nside))+".hdf5"
+        filename =DATA_LOCATION +"/emission_maps/smoothed_maps/smoothed_planck_"+str(int(self.planck_nside))+".hdf5"
         with h5py.File(filename, "w") as f:
             f.create_dataset("planck_array",data=smooth_final_maps,dtype='float64')
             f.close()
@@ -137,7 +138,7 @@ class DataProcessing():
         - planck_smooth (numpy.ndarray): The loaded smoothed Planck data.
 
         """
-        filename =DATA_LOCATION +"/3D_dust_temperature/smoothed_maps/albert/smoothed_planck_"+str(int(self.planck_nside))+".hdf5"
+        filename =DATA_LOCATION +"/emission_maps/smoothed_maps/smoothed_planck_"+str(int(self.planck_nside))+".hdf5"
         with h5py.File(filename, "r") as g:    
             self.planck_smooth=g["planck_array"][()]
             g.close()
@@ -145,7 +146,7 @@ class DataProcessing():
 
 
 
-    def load_smooth_ebv(self):
+    def load_smooth_ebv(self,dtype='float32'):
         """
         Loads the smoothed Bayestar data.
 
@@ -156,19 +157,20 @@ class DataProcessing():
         if self.bayestar_version=='albert':
             filename =DATA_LOCATION +"/3D_dust_temperature/smoothed_maps/albert/smoothed_ebv_"+str(int(self.bayestar_nside))+".hdf5"
         elif self.bayestar_version=="bayestar2019":
-            filename =DATA_LOCATION +"/3D_dust_temperature/smoothed_maps/ioana/bayestar19_smoothed_ebv_"+str(int(self.bayestar_nside))+".hdf5"
+            filename =DATA_LOCATION +"/dust_reddening_maps/smoothed_maps/bayestar19_smoothed_ebv_"+str(int(self.bayestar_nside))+"_"+dtype+".hdf5"
         else:
             raise ValueError("wrong bayestar type")
         with h5py.File(filename, "r") as g:    
             self.ebv_smooth=g["ebv_array"][()]
             g.close()
         print("loading smooth ebv done")
+        print("The data type is ", self.ebv_smooth.dtype)
       
         return self.ebv_smooth
 
 
 
-    def smooth_ebv(self,final_psf=10.):
+    def smooth_ebv(self,final_psf=10., dtype='float32'):
         """
         Smooths the Bayestar data.
 
@@ -196,11 +198,11 @@ class DataProcessing():
         if self.bayestar_version=='albert':
             filename =DATA_LOCATION +"/3D_dust_temperature/smoothed_maps/albert/smoothed_ebv_"+str(int(self.bayestar_nside))+".hdf5"
         elif self.bayestar_version=="bayestar2019":
-            filename =DATA_LOCATION +"/3D_dust_temperature/smoothed_maps/ioana/bayestar19_smoothed_ebv_"+str(int(self.bayestar_nside))+".hdf5"
+            filename =DATA_LOCATION +"/dust_reddening_maps/smoothed_maps/bayestar19_smoothed_ebv_"+str(int(self.bayestar_nside))+"_"+dtype+".hdf5"
         else:
             raise ValueError("wrong bayestar type")
         with h5py.File(filename, "w") as f:
-            f.create_dataset("ebv_array",data=smooth_final_maps,compression='lzf', chunks=True)
+            f.create_dataset("ebv_array",data=smooth_final_maps,compression='lzf', chunks=True, dtype=dtype)
             f.close()
         logging.info("Smoothed reddening data calculated and saved.")
 
