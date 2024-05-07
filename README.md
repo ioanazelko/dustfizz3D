@@ -87,14 +87,14 @@ Copy the file `general_settings_template.json` and rename it to `general_setting
 Edit the file with the corresponding directory paths for where you would like data, plots, code and paper files to be stored. Please use absolute paths, not relative paths.
 
 
-# Data
+## Data
 
 
-Download the data folder from https://drive.google.com/drive/folders/13ygvizB1-OkjPhoo9zTfUvFMrOOhsr0e?usp=sharing and save it under a name of your choice.
+Download the data folder from https://drive.google.com/drive/folders/15HqiBD3hKOHF-fGXfvozS2WxoglhyAET?usp=sharing and save it under a name of your choice.
 Set the data location in `general_settings.json` to match to the folder path you chose above.
 
 
-### Testing the installation
+## Testing the installation
 
 Please run the script 
 `sky_analysis.py`
@@ -102,6 +102,7 @@ Please run the script
 
 Note to David:
 Don't read below here.
+
 
 -------------------------------
 
