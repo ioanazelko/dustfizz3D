@@ -90,12 +90,15 @@ Edit the file with the corresponding directory paths for where you would like da
 ## Data
 
 
-Download the data folder from https://drive.google.com/drive/folders/15HqiBD3hKOHF-fGXfvozS2WxoglhyAET?usp=sharing and save it under a name of your choice.
+Download the data folder from https://www.dropbox.com/scl/fo/qsjiv5ejktmnyr14jc11s/AAUyIkXYCCnQkOWOujUYrRg?rlkey=fl9v14efr5irha85u26n0cg1w&st=yqxh9xfw&dl=0
+and save it under a name of your choice.
 Set the data location in `general_settings.json` to match to the folder path you chose above.
 
 
 ## Testing the installation
 
+
+Note: please make sure you have at least 10GB of RAM.
 Please run the script 
 `sky_analysis.py`
 
