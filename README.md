@@ -108,16 +108,15 @@ Please run the script
 
 
 
-
+# Descriptions of each module:
 
 ![[sky_analysis_level_0_simple.svg]]
 
-# Descriptions of each module:
 
+![[sky_analysis_level_0_simple.png]]
 
 #### ebv_data_processing
 Functions to load the pre-processed reddening data. 
-
 
 #### emission_data_processing
 Processes the emission data
