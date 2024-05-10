@@ -114,7 +114,7 @@ Please run the script
 
 
 ![[sky_analysis_level_0_simple.png]]
-
+![Core architecture](sky_analysis_level_0_simple.svg)
 #### ebv_data_processing
 Functions to load the pre-processed reddening data. 
 
