@@ -103,58 +103,14 @@ Please run the script
 `sky_analysis.py`
 
 
-Note to David:
-Don't read below here.
-
 
 -------------------------------
 
-## Recreating the analysis of Zelko et al. 2022
-
-
-See master_script.py
 
 
 
 
-### Dust emission data
-##### IRAS/DIRBE 100 mum (2998) GHz data:
-
-we use the map created by [Schlegel98, SFD](https://ui.adsabs.harvard.edu/abs/1998ApJ...500..525S/abstract). The map is downloaded through the IDL interface.
-
-The exact emission map that was used, before and after smoothing, can be found at:
-(give dataverse link)
-
-
-##### Planck
-
-### Dust reddening data
-
-
-#### Step 1, getting 3D reddening data, at the highest resolution.
-
-The data folder already has the 3D dust reddening map used for this analysis, so you do not need to regenerate it. 
-However, if you wanted to regenerate it, you could use the code in the module:
-#### Step 2.Match the resolution of the maps
-Smooth the map to match the resolution of the planck map. In fact, I had to smooth that map as well, bringing both to 10 arcminutes.
-
-
-
-Step 2. Decide the binning for it
-In the verision from Zelko2022, nside 1024 was used, and 17 distance bins.
-
-
-For Step 1, the code is in:
-
-Smoothing the maps:
-
-
-
-##### loading_all_3D_data.ipyn is a notebook showing how to load the end result 3D dust temperature map, with the other emission parameters. It also loads the reddening components, and they can all be combined to generate emission maps based on the fits.
-
-
-Step 3: 
-
+![[sky_analysis_level_0_simple.svg]]
 
 # Descriptions of each module:
 
@@ -164,8 +120,34 @@ Functions to load the pre-processed reddening data.
 
 
 #### emission_data_processing
-import utils
+Processes the emission data
 
+#### data_processing
+This has functionality to smooth both the reddening and the emission maps to match a desired  resolution
 
 #### constant_configuration.cfg 
 -- Holds the values for the general physics constants, so that they are not multiply defined in the code
+
+#### optimizer.py
+
+Functions that run the optimization process
+#### model.py
+
+Sets up the bayesian model
+#### sky_analysis.py
+
+Sets up the higher level part of the analysis with all the customized settings.
+#### sky_plots.py
+
+Functions that help in plotting. Ioana adds to this script
+#### master_script.py
+
+Showing what commands to call to reproduce some of the Figures of Zelko et al. 2022
+(work in progress, Ioana keeps adding to this script)
+#### plot_utils.py
+
+Helpful functions for the plotting functions in sky_plots.
+
+#### utils.py
+
+General helpful functions for the analysis

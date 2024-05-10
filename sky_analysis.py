@@ -200,27 +200,28 @@ class SkyAnalysis():
                             'planck_nside' : self.full_maps_nside,
                             'planck_version':"albert"}
         data = data_processing.DataProcessing(data_options_dict)
-        self.planck = data.load_planck()
-        self.planck_smooth = data.load_smooth_planck()
-        ### bayestar2019 or bayestar2017
-        self.ebv = data.load_bayestar()
-        self.ebv_smooth = data.load_smooth_ebv()
+ 
         ### distances
         self.bayestar_distances = data.load_distances()
         self.bayestar_ndistances = len(self.bayestar_distances)
         self.model_dist_slices=self.bayestar_distances[self.first_distance_slice:self.last_distance_slice:self.distance_slice_step] # get the selected distances as well
         self.analysis_configuration_dictionary['model_dist_slices']=self.model_dist_slices
-        self.dEBV = self.ebv_for_each_bin(self.ebv)
-        self.dEBV_smooth = self.ebv_for_each_bin(self.ebv_smooth)
         if self.use_smooth_EBV == True:
+            self.ebv_smooth = data.load_smooth_ebv()
+            self.dEBV_smooth = self.ebv_for_each_bin(self.ebv_smooth)
             self.analysis_ebv = self.ebv_smooth
             self.analysis_dEBV= self.dEBV_smooth
         else:
+            ### bayestar2019 or bayestar2017
+            self.ebv = data.load_bayestar()
+            self.dEBV = self.ebv_for_each_bin(self.ebv)
             self.analysis_ebv = self.ebv
             self.analysis_dEB = self.dEBV
         if self.use_smooth_planck ==  True:
+            self.planck_smooth = data.load_smooth_planck()
             self.analysis_planck = self.planck_smooth
         else:
+            self.planck = data.load_planck()
             self.analysis_planck = self.planck
         return
 
@@ -256,7 +257,6 @@ class SkyAnalysis():
 
     #ef custom_distance_slice(custom_distance_array_type):
     #    if custom_distance_array_type == "cepheus":
-
 
     def set_up_analysis(self):      
         ### Set Analysis Parameters
@@ -612,8 +612,8 @@ class SkyAnalysis():
 
 def test_sky_analysis(run_type="optimizer"):
     start_time = time.time()
-    p = SkyAnalysis("tiny_cepheus_beta_varying",run_type=run_type)
-    #p = SkyAnalysis("test_run",run_type=run_type)
+    #p = SkyAnalysis("tiny_cepheus_beta_varying",run_type=run_type)
+    p = SkyAnalysis("test_full_sky",run_type=run_type,nr_of_parallel_processes=1)
     p.set_up_analysis()
     p.load_data()
     #p.run_optimizer()

@@ -29,7 +29,7 @@ class Model():
         ### Loading the Data
         self.super_pixel_dEBV=data_dictionary["super_pixel_dEBV"] #(pixel_index,distance_slice)
         self.super_pixel_emission=data_dictionary["super_pixel_emission"] #(pixel_index,frequency)
-        self=data_dictionary["super_pixel_sigma_array"] #(pixel_index,frequency)
+        self.super_pixel_sigma_array=data_dictionary["super_pixel_sigma_array"] #(pixel_index,frequency)
         self.freq_array = data_dictionary["freq_array"] #[217,353,545,857,2998] #GHz
         self.nfreq = len(self.freq_array)
         ### Model Configuration

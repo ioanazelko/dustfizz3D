@@ -146,7 +146,7 @@ class DataProcessing():
 
 
 
-    def load_smooth_ebv(self,dtype='float32'):
+    def load_smooth_ebv(self,dtype='float16'):
         """
         Loads the smoothed Bayestar data.
 
@@ -207,7 +207,7 @@ class DataProcessing():
         logging.info("Smoothed reddening data calculated and saved.")
 
 
-def make_smooth_ebv():
+def make_smooth_ebv(final_psf=10., dtype='float32'):
     ### Making the smooth ebv maps; this takes 1h 10 min , and needs a lot of RAM, so better be done with a machine that has 
     ### more than 50GB of RAM
     start_time = time.time()
@@ -216,7 +216,7 @@ def make_smooth_ebv():
     data_proc_dict = {'bayestar_version':"bayestar2019",'bayestar_nside':1024,'planck_version':"albert",'planck_nside':1024}
     data_proc= DataProcessing(data_proc_dict)
 
-    data_proc.smooth_ebv()
+    data_proc.smooth_ebv(final_psf=final_psf, dtype=dtype)
     ### calculate the total time this operation took
     time_string = utils.end_time(start_time)
 
