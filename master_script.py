@@ -21,6 +21,11 @@ data_processing.make_smooth_ebv(dtype="float16")
 ##### How to generate the paper plots
 ##################################
 
+
+#### Figure 1
+
+
+
 #### Figure 7 (rho, and beta)
 
 

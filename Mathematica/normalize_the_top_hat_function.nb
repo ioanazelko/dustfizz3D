@@ -1,0 +1,192 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5855,        184]
+NotebookOptionsPosition[      4933,        159]
+NotebookOutlinePosition[      5337,        175]
+CellTagsIndexPosition[      5294,        172]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+I tried to do the integral manually; however the two terms individually don\
+\[CloseCurlyQuote]t converge, so the limit must be taken of them together. \
+So, went to mathematica to save time.\[LineSeparator]\
+\>", "Item",
+ CellChangeTimes->{{3.852425588879142*^9, 3.852425647487897*^9}, {
+  3.852463752730528*^9, 3.8524638479991703`*^9}, {3.852466281073934*^9, 
+  3.85246628366362*^9}, {3.852466343432061*^9, 3.852466351774004*^9}, {
+  3.852466874427692*^9, 
+  3.852466938012661*^9}},ExpressionUUID->"34799639-f4db-41ce-9b14-\
+487f8ba9703c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"g", "[", 
+   RowBox[{"x_", ",", "s_", ",", "w_"}], "]"}], ":=", " ", 
+  RowBox[{"Pi", "*", 
+   RowBox[{"(", "   ", 
+    RowBox[{
+     RowBox[{"Erf", "[", " ", 
+      RowBox[{"s", "*", 
+       RowBox[{"(", 
+        RowBox[{"x", "+", 
+         RowBox[{"w", "/", "2"}]}], ")"}]}], "   ", "]"}], "-", 
+     RowBox[{"Erf", "[", 
+      RowBox[{"s", "*", 
+       RowBox[{"(", 
+        RowBox[{"x", "-", 
+         RowBox[{"w", "/", "2"}]}], ")"}]}], "]"}]}], ")"}]}]}]], "Input",
+ CellChangeTimes->{
+  3.8524668759801073`*^9, {3.852467011487727*^9, 
+   3.852467011585291*^9}},ExpressionUUID->"b54d5dca-1460-4189-8a08-\
+075a31a8e218"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"x", "*", 
+     RowBox[{"Erf", "[", 
+      RowBox[{"s", "*", 
+       RowBox[{"(", 
+        RowBox[{"x", "+", "b"}], ")"}]}], "]"}]}], "-", 
+    RowBox[{"x", "*", 
+     RowBox[{"Erf", "[", 
+      RowBox[{"s", "*", 
+       RowBox[{"(", 
+        RowBox[{"x", "-", "b"}], ")"}]}], "]"}]}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", "Infinity"}], "}"}], ",", 
+   RowBox[{"Assumptions", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"s", ">", "0"}], ",", 
+      RowBox[{"b", ">", "0"}]}], "}"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.852464719944777*^9, 3.852464724999728*^9}},
+ CellLabel->"In[35]:=",ExpressionUUID->"07b470d4-2e3d-411e-afce-42c63547badc"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox[
+   RowBox[{"b", " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", 
+       SuperscriptBox["b", "2"]}], " ", 
+      SuperscriptBox["s", "2"]}]]}], 
+   RowBox[{
+    SqrtBox["\[Pi]"], " ", "s"}]], "+", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     SuperscriptBox["b", "2"], "+", 
+     FractionBox["1", 
+      RowBox[{"2", " ", 
+       SuperscriptBox["s", "2"]}]]}], ")"}], " ", 
+   RowBox[{"Erf", "[", 
+    RowBox[{"b", " ", "s"}], "]"}]}]}]], "Output",
+ CellChangeTimes->{3.85246472840029*^9},
+ CellLabel->"Out[35]=",ExpressionUUID->"87d8a774-f7f4-42ac-b4ff-0f27bbda4465"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"g", "[", 
+     RowBox[{"x", ",", "s", ",", "w"}], "]"}], "*", "x"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", "Infinity"}], "}"}], ",", 
+   RowBox[{"Assumptions", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"s", ">", "0"}], ",", 
+      RowBox[{"w", ">", "0"}]}], "}"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.852464757298287*^9, 3.8524647903763733`*^9}, {
+  3.852464879732657*^9, 3.8524648818832417`*^9}, {3.8524663755594482`*^9, 
+  3.852466376023822*^9}, {3.852466838602694*^9, 3.852466839586297*^9}, {
+  3.8524670138706923`*^9, 
+  3.8524670140153713`*^9}},ExpressionUUID->"92441e46-f3e1-4243-adde-\
+95af19b3a0c0"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "4"], " ", "\[Pi]", " ", 
+  RowBox[{"(", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"2", " ", 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", 
+         FractionBox["1", "4"]}], " ", 
+        SuperscriptBox["s", "2"], " ", 
+        SuperscriptBox["w", "2"]}]], " ", "w"}], 
+     RowBox[{
+      SqrtBox["\[Pi]"], " ", "s"}]], "+", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       FractionBox["2", 
+        SuperscriptBox["s", "2"]], "+", 
+       SuperscriptBox["w", "2"]}], ")"}], " ", 
+     RowBox[{"Erf", "[", 
+      FractionBox[
+       RowBox[{"s", " ", "w"}], "2"], "]"}]}]}], ")"}]}]], "Output",
+ CellChangeTimes->{{3.852464793566402*^9, 3.852464827450941*^9}, 
+   3.852464891647965*^9, 3.8524662913617163`*^9, {3.85246635912719*^9, 
+   3.852466380612157*^9}},
+ CellLabel->"Out[45]=",ExpressionUUID->"a3e16b3c-fc60-4770-b907-2787b2ac3d4a"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{606., 658.5},
+WindowMargins->{{Automatic, 309.75}, {17.25, Automatic}},
+FrontEndVersion->"12.2 for Linux x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"07486ed6-d093-441f-a259-6ab98ff30c0e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 551, 10, 95, "Item",ExpressionUUID->"34799639-f4db-41ce-9b14-487f8ba9703c"],
+Cell[1134, 34, 660, 20, 29, "Input",ExpressionUUID->"b54d5dca-1460-4189-8a08-075a31a8e218"],
+Cell[CellGroupData[{
+Cell[1819, 58, 759, 22, 51, "Input",ExpressionUUID->"07b470d4-2e3d-411e-afce-42c63547badc"],
+Cell[2581, 82, 637, 21, 57, "Output",ExpressionUUID->"87d8a774-f7f4-42ac-b4ff-0f27bbda4465"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3255, 108, 725, 18, 51, "Input",ExpressionUUID->"92441e46-f3e1-4243-adde-95af19b3a0c0"],
+Cell[3983, 128, 922, 27, 67, "Output",ExpressionUUID->"a3e16b3c-fc60-4770-b907-2787b2ac3d4a"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
