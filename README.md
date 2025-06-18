@@ -48,10 +48,23 @@ If you prefer to manage your Python environments and dependencies with Conda, yo
 
 ##### Setting Up the Conda Environment
 
-First, if you do not have Conda installed, download and install it from Miniconda or Anaconda. Then, create a new Conda environment for this project:
+First, if you do not have Conda installed, download and install it from Miniconda or Anaconda. From here, there are two options for setting up the Conda environment.
 
+##### Using the myenv.yml to Create the Conda Environment
 
-`conda create -n myenv python=3.x
+The first option is to utilize the myenv.yml file, and run:
+
+'conda env create -f myenv.yml'
+
+which automatically creates an environment with a working version of Python and the required packages already installed. You can activate the environment with:
+
+'conda activate myenv'
+
+###### Setting Up the Conda Environment from Scratch
+
+Alternatively, you can create a new Conda environment for this project from scratch:
+
+`conda create -n myenv python=3.x'
 
 (replace x wtih the latest python version or the one desired)
 Activate the new environment:
@@ -70,7 +83,7 @@ Note: Some packages might not be available in the default Anaconda channel and r
 
 ##### Verifying Installation
 
-To verify that all packages are installed correctly, you can list all packages in the active Conda environment:
+After either creating the conda environment using the .yml file, or building one from scratch, verify that all packages are installed correctly. You can do this by listing all packages in the active Conda environment:
 
 `conda list`
 
