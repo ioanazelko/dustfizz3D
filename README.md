@@ -54,17 +54,17 @@ First, if you do not have Conda installed, download and install it from Minicond
 
 The first option is to utilize the myenv.yml file, and run:
 
-'conda env create -f myenv.yml'
+`conda env create -f myenv.yml`
 
 which automatically creates an environment with a working version of Python and the required packages already installed. You can activate the environment with:
 
-'conda activate myenv'
+`conda activate myenv`
 
-###### Setting Up the Conda Environment from Scratch
+##### Setting Up the Conda Environment from Scratch
 
 Alternatively, you can create a new Conda environment for this project from scratch:
 
-`conda create -n myenv python=3.x'
+`conda create -n myenv python=3.x`
 
 (replace x wtih the latest python version or the one desired)
 Activate the new environment:
