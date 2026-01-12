@@ -12,8 +12,7 @@ import sky_analysis
 ##################################
 
 ### Making the smooth ebv maps
-#data_processing.make_smooth_ebv()
-data_processing.make_smooth_ebv(dtype="float16")
+#data_processing.make_smooth_ebv(dtype="float16")
 
 ## Making the smooth planck and IRAS maps
 #data_processing.make_smooth_planck()
