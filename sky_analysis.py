@@ -616,7 +616,7 @@ def test_sky_analysis(run_type="optimizer"):
     p = SkyAnalysis("test_full_sky",run_type=run_type,nr_of_parallel_processes=1)
     p.set_up_analysis()
     p.load_data()
-    #p.run_optimizer()
+    p.run_optimizer()
     #p.run_sampler()
     print("Test succsefully completed in:")
     time_string = utils.end_time(start_time)
